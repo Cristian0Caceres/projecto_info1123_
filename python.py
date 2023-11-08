@@ -17,7 +17,7 @@ class organismo:
             self.hp = self.hp - 1 
 
     def death(self):
-        if self.hp < 0:
+        if self.hp < 1:
             self.estate = "Muerto"
 
     def reproduction(self):
