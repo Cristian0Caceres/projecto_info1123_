@@ -4,7 +4,7 @@ import time
 py.init()
 
 #ancho y alto de nuestra pantalla que en este caso es de 1000 al cuadrado o 1000*1000
-ancho,largo=1000,1000
+ancho,largo=500,500
 
 #creacion de la pantalla usando los valores de ancho y largo 
 screen = py.display.set_mode((ancho,largo))
@@ -35,7 +35,7 @@ while True:
     
     screen.fill(bg)
 
-    time.sleep(0.1)
+    time.sleep(0.00000001)
     #teclado y raton
     ev = py.event.get()
     for event in ev:
