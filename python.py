@@ -21,7 +21,20 @@ class organismo:
             self.estate = "Muerto"
 
     def reproduction(self):
-        if #nose como continuar este codigo lo principal seria comprobar si 2 organismos de una mmisma
+        pass #nose como continuar este codigo lo principal seria comprobar si 2 organismos de una mmisma
            #especies estan presentes cerca de si y son del genero opuesto se reproduscan creando otro
            #ser de la misma especie pero con los atrivutos reducidos por unos 3 ciclos aproximadamente
            #ademas de que por esos ciclos no se pueda reproducir y tanpoco sus padres
+class depredador_01 (organismo):
+    pass
+class hervivoro_01 (organismo):
+    pass
+class omnivoro_01 (organismo):
+    pass
+class planta_01 (organismo):
+    pass
+
+class ambiente:
+    def __init__(self,):
+        pass
+               
