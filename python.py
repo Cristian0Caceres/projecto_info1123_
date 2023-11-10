@@ -1,4 +1,8 @@
 import pygame as py 
+import numpy  as np
+import time   as ti 
+import rxpy   as rp
+
 class organismo:
     def __init__(self,vida,daño,energia,sed,movimiento,estado,genero,posicion):
         self.hp = vida
@@ -35,7 +39,6 @@ class carnivoro (organismo):
         return super().death()
     def reproduction(self):
         return super().reproduction()
-    pass
 class hervivoro (organismo):
     def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicion):
         super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicion)
@@ -45,7 +48,6 @@ class hervivoro (organismo):
         return super().death()
     def reproduction(self):
         return super().reproduction()
-    pass
 class omnivoro (organismo):
     def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicion, cotador_de_caza):
         super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicion)
@@ -56,7 +58,6 @@ class omnivoro (organismo):
         return super().death()
     def reproduction(self):
         return super().reproduction()
-    pass
 class planta_01 (organismo):
     def __init__(self, vida, daño, sed, movimiento, estado, genero, posicion):
         super().__init__(vida, daño, sed, movimiento, estado, genero, posicion)
@@ -65,9 +66,34 @@ class planta_01 (organismo):
             super().hp = super().hp - 1
     def death(self):
         return super().death()
-    pass
 
 class ambiente:
-    def __init__(self,):
-        pass
-               
+    def __init__(self,agua,fertilidad,temperatura,humedad,condiciones_meteorologicas,sotenibilidad):
+        self.h2o   = agua
+        self.fert  = fertilidad
+        self.temp  = temperatura
+        self.hume  = humedad
+        self.cm    = condiciones_meteorologicas
+        self.soste = sotenibilidad
+
+#-------------------------
+# Creacion de la pantalla
+#-------------------------
+ancho, largo = 700 , 800
+pantalla= py.display.set_mode((ancho,largo))
+bg=25,25,25
+pantalla.fill(bg)
+ncx,ncy = 5,5
+dimCW= ancho / ncx
+dimCH= largo / ncy
+
+while True:
+    ti.sleep(0.1)
+    for y in range(0,ncx):
+        for x in range(0,ncy):
+            poly =    [((x)  * dimCW, y     * dimCH),
+                        ((x+1)* dimCW, y     * dimCH),
+                        ((x+1)* dimCW, (y+1) * dimCH),
+                        ((x)  * dimCW, (y+1) * dimCH)]
+            py.draw.polygon(pantalla,(128,128,128),poly,1)
+    py.display.flip()
