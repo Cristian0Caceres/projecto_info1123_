@@ -35,7 +35,7 @@ while True:
     
     screen.fill(bg)
 
-    time.sleep(0.00000001)
+    time.sleep(0.1)
     #teclado y raton
     ev = py.event.get()
     for event in ev:
