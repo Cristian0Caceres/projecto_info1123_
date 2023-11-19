@@ -63,6 +63,10 @@ class ambiente:
             self.hume = 0
             self.temp = self.temp + 1
             self.type = "arido"
+    def water(self):
+        if self.hume > 33 :
+            self.h2o=self.h2o + ra.randint in range (0, 4)
+
 
 #-------------------------
 # Creacion de la pantalla
