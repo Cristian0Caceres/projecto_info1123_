@@ -30,7 +30,7 @@ def main():
     for i in range(5):
         fila = []
         for j in range(5):
-            agua = random.randint(0, 100)
+            h2o = random.randint(0, 100)
             fertilidad = random.randint(0, 100)
             temperatura = random.randint(-30, 50)
             humedad = random.randint(0, 100)
@@ -43,7 +43,7 @@ def main():
     # Dibujar el mapa
     for i in range(len(mapa)):
         for j in range(len(mapa[i])):
-            color = (0, mapa[i][j].fert, mapa[i][j].h2o)  # Use fertility and water as color components
+            color = (0, mapa[i][j].fert, mapa[i][j].agua)  # Use fertility and water as color components
             pygame.draw.rect(pantalla, color, pygame.Rect(i*TAM_CASILLA, j*TAM_CASILLA, TAM_CASILLA, TAM_CASILLA))
 
     # Bucle principal

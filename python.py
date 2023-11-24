@@ -9,9 +9,10 @@ import random as ra
 #-------------------------
 #constantes
 #-------------------------
-ancho, largo = 700 , 700
-bg=25,25,25 ; ncx,ncy = 5,5
+ancho, largo = 700 , 700 ; ncx,ncy = 5,5
 dimCW= ancho / ncx ; dimCH= largo / ncy
+posibles_ambientes=["arido", "humedo", "templado", "frio", "caluroso"]
+
 #-------------------------
 #clases
 #-------------------------
@@ -111,25 +112,36 @@ def Img_Init():
     aImg.append(Load_Image('T04.png',False )) # ¿hielo?
     return aImg
 #-------------------------
-#objetos prototipo
+#main
 #-------------------------
-ambiente
-#-------------------------
-# Creacion de la pantalla
-#-------------------------
-pantalla= py.display.set_mode((ancho,largo))
-pantalla.fill(bg)
+def main(ancho,largo,mapa):
+    pantalla= py.display.set_mode((ancho,largo))
+    for i in range(len(mapa)):
+        for j in range(len(mapa[i])):
+            color = (0, mapa[i][j].fert, mapa[i][j].h2o)  # Use fertility and water as color components
+            py.draw.rect(pantalla, color, py.Rect(i*dimCW, j*dimCH, dimCW, dimCH))
+#---------------------------
+#generacion de mapa
+#---------------------------
+mapa = []
+for i in range(5):
+    fila = []
+    for j in range(5):
+        agua = ra.randint(0, 100)
+        fertilidad = ra.randint(0, 100)
+        temperatura = ra.randint(-30, 50)
+        humedad = ra.randint(0, 100)
+        condiciones_meteorologicas = ra.choice(["soleado", "nublado", "lluvioso", "nevado"])
+        sostenibilidad = ra.randint(0, 100)
+        tipo = ra.choice(posibles_ambientes)
+        fila.append(ambiente(agua, fertilidad, temperatura, humedad, condiciones_meteorologicas, sostenibilidad, tipo))
+    mapa.append(fila)
 
 #-------------------------
 # ciclo principal
 #-------------------------
-while True:
+ejecutando = True
+while ejecutando:
     ti.sleep(0.1)
-    for y in range(0,ncx):
-        for x in range(0,ncy):
-            poly =    [((x)  * dimCW, y     * dimCH),
-                        ((x+1)* dimCW, y     * dimCH),
-                        ((x+1)* dimCW, (y+1) * dimCH),
-                        ((x)  * dimCW, (y+1) * dimCH)]
-            py.draw.polygon(pantalla,(128,128,128),poly,1)
+    main(largo,ancho,mapa)
     py.display.flip()
