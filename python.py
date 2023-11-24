@@ -4,9 +4,9 @@
 import pygame as py 
 import numpy  as np
 import time   as ti
-from pygame.sprite import _Group 
+from pygame.sprite import _Group
 import rxpy   as rp
-import random as ra 
+import random as ra
 
 #-------------------------
 #clases
@@ -96,17 +96,6 @@ class ambiente:
         if self.hume > 33 :
             self.h2o=self.h2o + ra.randint in range (0, 4)
 
-
-#-------------------------
-# Creacion de la pantalla
-#-------------------------
-ancho, largo = 700 , 800
-pantalla= py.display.set_mode((ancho,largo))
-bg=25,25,25
-pantalla.fill(bg)
-ncx,ncy = 5,5
-dimCW= ancho / ncx
-dimCH= largo / ncy
 #-------------------------
 #funciones
 #-------------------------
@@ -126,7 +115,16 @@ def Img_Init():
     aImg.append(Load_Image('T03.png',False )) # montaña
     aImg.append(Load_Image('T04.png',False )) # ¿hielo?
     return aImg
-
+#-------------------------
+# Creacion de la pantalla
+#-------------------------
+ancho, largo = 700 , 800
+pantalla= py.display.set_mode((ancho,largo))
+bg=25,25,25
+pantalla.fill(bg)
+ncx,ncy = 5,5
+dimCW= ancho / ncx
+dimCH= largo / ncy
 
 
 
