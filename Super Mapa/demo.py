@@ -9,11 +9,24 @@ from pygame.locals import *
 #---------------------------------------------------------------------
 # Definicion de Constantes.-
 #---------------------------------------------------------------------
-nRES = (1200,700) ; nMAX_ROBOTS  =10 ;nMAX_NAVES = 2
-nMIN_X = 0 ; nMAX_X = 2640 ; nMIN_Y = 0 ; nMAX_Y = 1760
-nTRUE  = 1 ; nTIME1 = 400 ; nTIME2 = 400 ; lOK = True
-nTILE_WX = 44 ; nTILE_HY = 44 ; nX0 = 232 ; nY0 = 14 ; nBTN_LEFT = 1
-xd = 0 ; yd = 0
+nRES = (1200,700)
+nMAX_ROBOTS  =10
+nMAX_NAVES = 2
+nMIN_X = 0
+nMAX_X = 2640
+nMIN_Y = 0
+nMAX_Y = 1760
+nTRUE  = 1
+nTIME1 = 400
+nTIME2 = 400
+lOK = True
+nTILE_WX = 44
+nTILE_HY = 44
+nX0 = 232
+nY0 = 14
+nBTN_LEFT = 1
+xd = 0
+yd = 0
 
 #---------------------------------------------------------------------
 # Definicion de Estructura de Datos.-

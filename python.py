@@ -4,16 +4,19 @@
 import pygame as py 
 import numpy  as np
 import time   as ti
-from pygame.sprite import _Group
 import rxpy   as rp
 import random as ra
-
+#-------------------------
+#constantes
+#-------------------------
+ancho, largo = 700 , 700
+bg=25,25,25 ; ncx,ncy = 5,5
+dimCW= ancho / ncx ; dimCH= largo / ncy
 #-------------------------
 #clases
 #-------------------------
-class organismo(py.sprite.Sprite):
-    def __init__(self,vida,daño,energia,sed,movimiento,estado,genero,posicionx,posiciony,dieta, *groups: _Group) -> None:
-        super().__init__(*groups)
+class organismo:
+    def __init__(self,vida,daño,energia,sed,movimiento,estado,genero,posicionx,posiciony,dieta):
         self.hp      =       vida
         self.dmg     =       daño
         self.enrg    =    energia
@@ -46,9 +49,8 @@ class organismo(py.sprite.Sprite):
             self.posty = 25
 
 class animal(organismo):
-    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, *groups: _Group) -> None:
-        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, *groups)
-
+    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta):
+        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta)
     def inanicion_desidratacion(self):
         return super().inanicion_desidratacion()
     def death(self):
@@ -56,21 +58,14 @@ class animal(organismo):
     def max_move(self):
         return super().max_move()
 
-
-
-
 class planta (organismo):
-    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, *groups: _Group) -> None:
-        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, *groups)
+    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta):
+        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta)
     def desidratacion(self):
         if super().water == 0:
             super().hp = super().hp - 1
     def death(self):
         return super().death()
-
-
-
-
 
 class ambiente:
     def __init__(self,agua,fertilidad,temperatura,humedad,condiciones_meteorologicas,sotenibilidad,tipo):
@@ -116,24 +111,18 @@ def Img_Init():
     aImg.append(Load_Image('T04.png',False )) # ¿hielo?
     return aImg
 #-------------------------
+#objetos prototipo
+#-------------------------
+ambiente
+#-------------------------
 # Creacion de la pantalla
 #-------------------------
-ancho, largo = 700 , 800
 pantalla= py.display.set_mode((ancho,largo))
-bg=25,25,25
 pantalla.fill(bg)
-ncx,ncy = 5,5
-dimCW= ancho / ncx
-dimCH= largo / ncy
 
-
-
-
-
-
-
-
-
+#-------------------------
+# ciclo principal
+#-------------------------
 while True:
     ti.sleep(0.1)
     for y in range(0,ncx):
