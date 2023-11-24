@@ -123,8 +123,8 @@ def Load_Image(sFile,transp = False):
 def Img_Init():
     aImg = []
     aImg.append(Load_Image('T02.png',False )) # Tierra
-    aImg.append(Load_Image('T03.png',False )) # Roca
-    aImg.append(Load_Image('T04.png',False )) # Marmol
+    aImg.append(Load_Image('T03.png',False )) # montaña
+    aImg.append(Load_Image('T04.png',False )) # ¿hielo?
     return aImg
 
 
