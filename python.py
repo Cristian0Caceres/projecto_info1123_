@@ -1,47 +1,76 @@
+#-------------------------
+#Simulador De Ecosistema
+#-------------------------
 import pygame as py 
 import numpy  as np
-import time   as ti 
+import time   as ti
+from pygame.sprite import _Group 
 import rxpy   as rp
 import random as ra 
 
-class organismo:
-    def __init__(self,vida,daño,energia,sed,movimiento,estado,genero,posicion,dieta):
-        self.hp = vida
-        self.dmg = daño
-        self.enrg = energia
-        self.water = sed
-        self.move = movimiento
-        self.estate = estado
-        self.gender = genero
-        self.post = posicion
-        self.diet = dieta
+#-------------------------
+#clases
+#-------------------------
+class organismo(py.sprite.Sprite):
+    def __init__(self,vida,daño,energia,sed,movimiento,estado,genero,posicionx,posiciony,dieta, *groups: _Group) -> None:
+        super().__init__(*groups)
+        self.hp      =       vida
+        self.dmg     =       daño
+        self.enrg    =    energia
+        self.water   =        sed
+        self.move    = movimiento
+        self.estate  =     estado
+        self.gender  =     genero
+        self.postx   =  posicionx
+        self.posty   =  posiciony
+        self.diet    =      dieta
+        self.repcont =          0
 
     def inanicion_desidratacion(self):
         if self.enrg < 100:
-            self.hp = self.hp - 1 
+            self.hp = self.hp - 1
         if self.water < 100:
-            self.hp = self.hp - 1 
+            self.hp = self.hp - 1
 
     def death(self):
         if self.hp < 1:
             self.estate = "Muerto"
 
-    def reproduction(self):
-        pass #nose como continuar este codigo lo principal seria comprobar si 2 organismos de una mmisma
-            #especies estan presentes cerca de si y son del genero opuesto se reproduscan creando otro
-            #ser de la misma especie pero con los atrivutos reducidos por unos 3 ciclos aproximadamente
-            #ademas de que por esos ciclos no se pueda reproducir y tanpoco sus padres
+    def reproduction (self):
+        pass
+    def max_move(self):
+        if self.postx > 25:
+            self.postx = 25
+            self.postx = 25
+        if self.posty > 25:
+            self.posty = 25
+
 class animal(organismo):
-    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicion, dieta):
-        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicion, dieta)
-class planta_01 (organismo):
-    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicion, dieta):
-        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicion, dieta)
+    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, *groups: _Group) -> None:
+        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, *groups)
+
+    def inanicion_desidratacion(self):
+        return super().inanicion_desidratacion()
+    def death(self):
+        return super().death()
+    def max_move(self):
+        return super().max_move()
+
+
+
+
+class planta (organismo):
+    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, *groups: _Group) -> None:
+        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, *groups)
     def desidratacion(self):
         if super().water == 0:
             super().hp = super().hp - 1
     def death(self):
         return super().death()
+
+
+
+
 
 class ambiente:
     def __init__(self,agua,fertilidad,temperatura,humedad,condiciones_meteorologicas,sotenibilidad,tipo):
@@ -78,6 +107,34 @@ pantalla.fill(bg)
 ncx,ncy = 5,5
 dimCW= ancho / ncx
 dimCH= largo / ncy
+#-------------------------
+#funciones
+#-------------------------
+def Load_Image(sFile,transp = False):
+    try: image = py.image.load(sFile)
+    except py.error as message:
+            raise SystemExit.message
+    image = image.convert()
+    if transp:
+        color = image.get_at((0,0))
+        image.set_colorkey(color.RLEACCEL)
+    return image
+
+def Img_Init():
+    aImg = []
+    aImg.append(Load_Image('T02.png',False )) # Tierra
+    aImg.append(Load_Image('T03.png',False )) # Roca
+    aImg.append(Load_Image('T04.png',False )) # Marmol
+    return aImg
+
+
+
+
+
+
+
+
+
 
 while True:
     ti.sleep(0.1)
