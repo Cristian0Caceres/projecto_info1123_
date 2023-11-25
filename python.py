@@ -1,5 +1,5 @@
 #-------------------------
-#Simulador De Ecosistema
+#SIMULADOR DE ECOSISTEMA
 #-------------------------
 import pygame as py 
 import numpy  as np
@@ -7,14 +7,15 @@ import time   as ti
 import rxpy   as rp
 import random as ra
 #-------------------------
-#constantes
+#CONSTANTES
 #-------------------------
 ancho, largo = 700 , 700 ; ncx,ncy = 5,5
 dimCW= ancho / ncx ; dimCH= largo / ncy
 posibles_ambientes=["arido", "humedo", "templado", "frio", "caluroso"]
+ejecutando = True
 
 #-------------------------
-#clases
+#CLASES
 #-------------------------
 class organismo:
     def __init__(self,vida,daño,energia,sed,movimiento,estado,genero,posicionx,posiciony,dieta):
@@ -93,7 +94,7 @@ class ambiente:
             self.h2o=self.h2o + ra.randint in range (0, 4)
 
 #-------------------------
-#funciones
+#FUNCIONES
 #-------------------------
 def Load_Image(sFile,transp = False):
     try: image = py.image.load(sFile)
@@ -112,7 +113,7 @@ def Img_Init():
     aImg.append(Load_Image('T04.png',False )) # ¿hielo?
     return aImg
 #-------------------------
-#main
+#MAIN
 #-------------------------
 def main(ancho,largo,mapa):
     pantalla= py.display.set_mode((ancho,largo))
@@ -121,26 +122,27 @@ def main(ancho,largo,mapa):
             color = (0, mapa[i][j].fert, mapa[i][j].h2o)  # Use fertility and water as color components
             py.draw.rect(pantalla, color, py.Rect(i*dimCW, j*dimCH, dimCW, dimCH))
 #---------------------------
-#generacion de mapa
+#GENERACION DEL MAPA
 #---------------------------
 mapa = []
 for i in range(5):
     fila = []
     for j in range(5):
-        agua = ra.randint(0, 100)
-        fertilidad = ra.randint(0, 100)
-        temperatura = ra.randint(-30, 50)
-        humedad = ra.randint(0, 100)
-        condiciones_meteorologicas = ra.choice(["soleado", "nublado", "lluvioso", "nevado"])
-        sostenibilidad = ra.randint(0, 100)
+        agua = ra.randint(0, 100);fertilidad = ra.randint(0, 100)
+        temperatura = ra.randint(-30, 50);humedad = ra.randint(0, 100)
+        condiciones_meteorologicas = ra.choice(["soleado", "nublado", "lluvioso", "nevado"]);sostenibilidad = ra.randint(0, 100)
         tipo = ra.choice(posibles_ambientes)
         fila.append(ambiente(agua, fertilidad, temperatura, humedad, condiciones_meteorologicas, sostenibilidad, tipo))
     mapa.append(fila)
+#---------------------------------------------------------------------
+# Inicializa Superficie del Super Extra Mega Mapa.-
+#---------------------------------------------------------------------
+def Get_Surface(ancho,alto):
+    return py.Surface((ancho,alto))
 
 #-------------------------
-# ciclo principal
+# CICLO PRINCIPAL
 #-------------------------
-ejecutando = True
 while ejecutando:
     ti.sleep(0.1)
     main(largo,ancho,mapa)
