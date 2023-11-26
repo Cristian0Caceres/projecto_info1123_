@@ -3,7 +3,6 @@
 #-------------------------
 import pygame as py 
 import numpy  as np
-import rxpy   as rp
 import random as ra
 #-------------------------
 #CONSTANTES
@@ -158,9 +157,10 @@ def Load_Image(sFile,transp = False):
 
 def Img_Init():
     aImg = []
-    aImg.append(Load_Image('T02.png',False )) # Tierra
-    aImg.append(Load_Image('T03.png',False )) # montaña
-    aImg.append(Load_Image('T04.png',False )) # ¿hielo?
+    aImg.append(Load_Image('agua.png',False ))
+    aImg.append(Load_Image('tierra.png',False ))
+    aImg.append(Load_Image('arena.png',False ))
+    aImg.append(Load_Image('montaña.png',False ))
     return aImg
 
 #-------------------------
