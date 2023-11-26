@@ -36,6 +36,9 @@ class organismo:
         self.diet    =      dieta
         self.repcont =          0
 
+    def death(self):
+        if self.hp < 1:
+            self.estate = "Muerto"
     def inanicion_desidratacion(self):
         self.enrg  = int(self.enrg)  - 1
         self.water = int(self.water) - 1
@@ -43,11 +46,6 @@ class organismo:
             self.hp = self.hp - 1
         if self.water < 100:
             self.hp = self.hp - 1
-        death(self)
-    def death(self):
-        if self.hp < 1:
-            self.estate = "Muerto"
-
     def reproduction (self):
         pass
 
