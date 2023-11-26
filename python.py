@@ -173,6 +173,6 @@ while running:
     all_sprites.update()
     main(largo,ancho,mapa)
     py.display.flip()
-    ti.sleep(0.5)
+    ti.sleep(0)
     clock.tick(6)
 py.quit()
