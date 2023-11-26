@@ -112,7 +112,7 @@ while running:
         plt.show()
         break
 
-    screen.fill((255, 255, 255))
+    screen.fill((2, 2, 2))
     all_sprites.draw(screen)
 
     pygame.display.flip()

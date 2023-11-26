@@ -115,16 +115,37 @@ class ambiente:
             self.h2o=liquido + rehidratacion
 
 #--------------------------
-#Coliciones
+#Mapa
 #--------------------------
 
-
+for i in range(5):
+    fila = []
+    for j in range(5):
+        agua = ra.randint(0, 100);fertilidad = ra.randint(0, 100)
+        temperatura = ra.randint(-30, 50);humedad = ra.randint(0, 100)
+        condiciones_meteorologicas = ra.choice(["soleado", "nublado", "lluvioso", "nevado"]);sostenibilidad = ra.randint(0, 100)
+        tipo = ra.choice(posibles_ambientes)
+        fila.append(ambiente(agua, fertilidad, temperatura, humedad, condiciones_meteorologicas, sostenibilidad, tipo))
+    mapa.append(fila)
 
 #-------------------------
 #animales
 #-------------------------
 
-
+for i in range(10):
+    colour = (ra.randrange(256), ra.randrange(256), ra.randrange(256))
+    vida = 100
+    daño = 10 if i < 5 else 0  # Los primeros 5 animales son agresivos
+    energia = 100
+    sed = 100
+    movimiento = 1
+    estado = "Vivo"
+    genero = "Macho" if i % 2 == 0 else "Hembra"
+    posicionx = ra.randrange(700)
+    posiciony = ra.randrange(700)
+    dieta = "Carnívoro" if i < 5 else "Herbívoro"
+    animal = Animal( vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta,colour)
+    all_sprites.add(animal)
 
 #-------------------------
 #FUNCIONES
@@ -161,36 +182,6 @@ def main(ancho,largo,mapa):
             color = (0, mapa[i][j].fert, mapa[i][j].h2o)
             py.draw.rect(pantalla, color, py.Rect(i*dimCW, j*dimCH, dimCW, dimCH))
             all_sprites.draw(pantalla)
-
-
-#---------------------------
-#GENERACION DEL MAPA
-#---------------------------
-
-for i in range(5):
-    fila = []
-    for j in range(5):
-        agua = ra.randint(0, 100);fertilidad = ra.randint(0, 100)
-        temperatura = ra.randint(-30, 50);humedad = ra.randint(0, 100)
-        condiciones_meteorologicas = ra.choice(["soleado", "nublado", "lluvioso", "nevado"]);sostenibilidad = ra.randint(0, 100)
-        tipo = ra.choice(posibles_ambientes)
-        fila.append(ambiente(agua, fertilidad, temperatura, humedad, condiciones_meteorologicas, sostenibilidad, tipo))
-    mapa.append(fila)
-
-for i in range(10):
-    colour = (ra.randrange(256), ra.randrange(256), ra.randrange(256))
-    vida = 100
-    daño = 10 if i < 5 else 0  # Los primeros 5 animales son agresivos
-    energia = 100
-    sed = 100
-    movimiento = 1
-    estado = "Vivo"
-    genero = "Macho" if i % 2 == 0 else "Hembra"
-    posicionx = ra.randrange(700)
-    posiciony = ra.randrange(700)
-    dieta = "Carnívoro" if i < 5 else "Herbívoro"
-    animal = Animal( vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta,colour)
-    all_sprites.add(animal)
 
 #---------------------------------------------------------------------
 # Inicializa Superficie del Super Extra Mega Mapa.-
