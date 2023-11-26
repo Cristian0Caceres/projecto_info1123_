@@ -9,12 +9,12 @@ import random as ra
 #CONSTANTES
 #-------------------------
 
-ancho, largo = 700 , 700 ; ncx,ncy = 5,5
+ancho, largo = 700 , 1000 ; ncx,ncy = 5,5
 dimCW= ancho / ncx ; dimCH= largo / ncy
 posibles_ambientes = ["arido", "humedo", "templado", "frio", "caluroso"]
 posibles_estados = ["vivo","muelto","cazando","bebiendo","reproduciendoce","diambulando",]
-posibles_generos = ["macho","hembra","Planta"] ; running = True
-posibles_dietas  = ["carnivoro","herviro"]; all_sprites = py.sprite.Group()
+posibles_generos = ["macho","hembra","planti"] ; running = True
+posibles_dietas  = ["carnivoro","herviro","fotosintetico"]; all_sprites = py.sprite.Group()
 mapa = [] ; clock = py.time.Clock()
 
 #-------------------------
