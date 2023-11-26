@@ -149,9 +149,9 @@ py.init()
 
 def main(ancho,largo,mapa):
     pantalla= py.display.set_mode((ancho,largo))
-    for i in range(10):
-        for j in range(10):
-            pantalla.blit(imagenes[matriz[i, j]], (j * 70, i * 70))
+    for i in range(14):
+        for j in range(14):
+            pantalla.blit(imagenes[matriz[i, j]], (j * 50, i * 50))
             all_sprites.draw(pantalla)
     py.display.update()
 
