@@ -5,6 +5,7 @@ import pygame as py
 from pygame.locals import *
 import numpy  as np
 import random as ra
+import time as ti
 #-------------------------
 #CONSTANTES
 #-------------------------
@@ -110,7 +111,7 @@ class ambiente:
 #--------------------------
 #Matriz
 #--------------------------
-matriz = np.random.choice([0, 1, 2], (35, 35))
+matriz = np.random.choice([0, 1, 2,3], (44, 44))
 #-------------------------
 #animales
 #-------------------------
@@ -172,5 +173,6 @@ while running:
     all_sprites.update()
     main(largo,ancho,mapa)
     py.display.flip()
+    ti.time.sleep(0.5)
     clock.tick(6)
 py.quit()
