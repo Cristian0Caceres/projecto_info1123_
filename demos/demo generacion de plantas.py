@@ -41,8 +41,8 @@ class Planta(Organismo):
         self.cycles = 0
 
     def desidratacion(self):
-        if self.water == 0 or self.cycles % 12 == 0:
-            self.hp = self.hp - 1
+        if self.water < 50 or self.cycles % 12 == 0:
+            self.hp = self.hp - 10
 
     def death(self):
         if self.hp < 1 or self.cycles >= 60 or random.random() < 0.01: 
@@ -52,6 +52,8 @@ class Planta(Organismo):
     def reproduction(self):
         if self.repcont >= 6:
             self.repcont = 0
+            self.enrg = int(self.water) -1
+            self.death()
             return [(self.postx + random.randint(-10, 10), self.posty + random.randint(-10, 10)) for _ in range(random.randint(0, 2))]
         else:
             self.repcont += 1
@@ -66,7 +68,7 @@ def main():
     pygame.display.set_caption("Simulación de Organismos")
 
     colores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
-    plantas = [Planta(100, 0, 50, 50, 0, "vivo", "femenino", random.randint(0, 700), random.randint(0, 700), "herbívoro", color) for color in colores for _ in range(3)]
+    plantas = [Planta(10, 0, 50, 50, 0, "vivo", "planti", random.randint(0, 700), random.randint(0, 700), "fotosintetico", color) for color in colores for _ in range(3)]
     contador_colores = {color: 3 for color in colores}
 
     clock = pygame.time.Clock()
@@ -87,8 +89,9 @@ def main():
             nuevas_posiciones = planta.reproduction()
             for pos in nuevas_posiciones:
                 if contador_colores[planta.color] < 600:
-                    nuevas_plantas.append(Planta(100, 0, 50, 50, 0, "vivo", "femenino", pos[0], pos[1], "herbívoro", planta.color))
+                    nuevas_plantas.append(Planta(100, 0, 50, 50, 0, "vivo", "planti", pos[0], pos[1], "fotosintetico", planta.color))
                     contador_colores[planta.color] += 1
+            planta.desidratacion()
             planta.death()
             if planta.estate == "Muerto":
                 plantas.remove(planta)
