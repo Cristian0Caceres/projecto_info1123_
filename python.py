@@ -149,9 +149,9 @@ py.init()
 
 def main(ancho,largo,mapa):
     pantalla= py.display.set_mode((ancho,largo))
-    for i in range(35):
-        for j in range(35):
-            pantalla.blit(imagenes[matriz[i, j]], (j * 20, i * 20))
+    for i in range(10):
+        for j in range(10):
+            pantalla.blit(imagenes[matriz[i, j]], (j * 70, i * 70))
             all_sprites.draw(pantalla)
     py.display.update()
 
@@ -173,6 +173,6 @@ while running:
     all_sprites.update()
     main(largo,ancho,mapa)
     py.display.flip()
-    ti.time.sleep(0.5)
+    ti.sleep(0.5)
     clock.tick(6)
 py.quit()

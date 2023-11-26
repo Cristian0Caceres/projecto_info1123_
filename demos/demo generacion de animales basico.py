@@ -31,10 +31,10 @@ class Organismo:
         pass
 
     def max_move(self):
-        if self.postx > 25:
-            self.postx = 25
-        if self.posty > 25:
-            self.posty = 25
+        if self.postx > 34:
+            self.postx = 34
+        if self.posty > 34:
+            self.posty = 34
 
 # Definir la clase Animal que hereda de Organismo
 class Animal(Organismo, pygame.sprite.Sprite):
@@ -54,12 +54,11 @@ class Animal(Organismo, pygame.sprite.Sprite):
                 target.death()
 
     def update(self):
-        self.rect.x += random.choice([-20, 20])
-        self.rect.y += random.choice([-20, 20])
-        if self.rect.x < 0 or self.rect.x > 690:
-            self.rect.x = random.randrange(700)
-        if self.rect.y < 0 or self.rect.y > 690:
-            self.rect.y = random.randrange(700)
+        self.postx += random.choice([-1, 1])
+        self.posty += random.choice([-1, 1])
+        # Asegurarse de que el animal no se salga de los límites de la matriz
+        self.postx = max(0, min(self.postx, 34))
+        self.posty = max(0, min(self.posty, 34))
 
 # Inicializar Pygame
 pygame.init()
@@ -80,8 +79,8 @@ for i in range(10):
     movimiento = 1
     estado = "Vivo"
     genero = "Macho" if i % 2 == 0 else "Hembra"
-    posicionx = random.randrange(700)
-    posiciony = random.randrange(700)
+    posicionx = random.randrange(35)
+    posiciony = random.randrange(35)
     dieta = "Carnívoro" if i < 5 else "Herbívoro"
     animal = Animal(color, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta)
     all_sprites.add(animal)
@@ -118,6 +117,6 @@ while running:
     pygame.display.flip()
 
     # Limitar la tasa de fotogramas a 5 FPS
-    clock.tick(5)
+    clock.tick(120)
 
 pygame.quit()
