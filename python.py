@@ -2,6 +2,7 @@
 #SIMULADOR DE ECOSISTEMA
 #-------------------------
 import pygame as py 
+from pygame.locals import *
 import numpy  as np
 import random as ra
 #-------------------------
@@ -84,13 +85,10 @@ class planta (organismo):
         return super().death()
 
 class ambiente:
-    def __init__(self,agua,fertilidad,temperatura,humedad,condiciones_meteorologicas,sotenibilidad,tipo):
+    def __init__(self,agua,humedad,condiciones_meteorologicas,tipo):
         self.h2o   = agua
-        self.fert  = fertilidad
-        self.temp  = temperatura
         self.hume  = humedad
         self.cm    = condiciones_meteorologicas
-        self.soste = sotenibilidad
         self.type = tipo
     def humedads(self):
         if self.h2o < 100:
@@ -110,25 +108,15 @@ class ambiente:
             self.h2o=liquido + rehidratacion
 
 #--------------------------
-#Mapa
+#Matriz
 #--------------------------
-
-for i in range(5):
-    fila = []
-    for j in range(5):
-        agua = ra.randint(0, 100);fertilidad = ra.randint(0, 100)
-        temperatura = ra.randint(-30, 50);humedad = ra.randint(0, 100)
-        condiciones_meteorologicas = ra.choice(["soleado", "nublado", "lluvioso", "nevado"]);sostenibilidad = ra.randint(0, 100)
-        tipo = ra.choice(posibles_ambientes)
-        fila.append(ambiente(agua, fertilidad, temperatura, humedad, condiciones_meteorologicas, sostenibilidad, tipo))
-    mapa.append(fila)
-
+matriz = np.random.choice([0, 1, 2], (35, 35))
 #-------------------------
 #animales
 #-------------------------
 
 for i in range(30):
-    colour = (ra.randrange(256), ra.randrange(256), ra.randrange(256))
+    colour = (ra.randrange(256), ra.randrange(150), ra.randrange(120))
     vida = 100
     daño = 10 if i < 5 else 0  # Los primeros 5 animales son agresivos
     energia = 100
@@ -145,24 +133,14 @@ for i in range(30):
 #-------------------------
 #FUNCIONES
 #-------------------------
-def Load_Image(sFile,transp = False):
-    try: image = py.image.load(sFile)
-    except py.error as message:
-            raise SystemExit.message
-    image = image.convert()
-    if transp:
-        color = image.get_at((0,0))
-        image.set_colorkey(color.RLEACCEL)
-    return image
-
-def Img_Init():
-    aImg = []
-    aImg.append(Load_Image('agua.png',False ))
-    aImg.append(Load_Image('tierra.png',False ))
-    aImg.append(Load_Image('arena.png',False ))
-    aImg.append(Load_Image('montaña.png',False ))
-    return aImg
-
+def cargar_imagenes():
+    imagenes = []
+    imagenes.append(py.image.load('agua.png'))
+    imagenes.append(py.image.load('tierra.png'))
+    imagenes.append(py.image.load('arena.png'))
+    imagenes.append(py.image.load('montaña.png'))
+    return imagenes
+imagenes = cargar_imagenes()
 #-------------------------
 #MAIN
 #-------------------------
@@ -170,14 +148,11 @@ py.init()
 
 def main(ancho,largo,mapa):
     pantalla= py.display.set_mode((ancho,largo))
-    for i in range(len(mapa)):
-        for j in range(len(mapa[i])):
-            mapa[i][j].humedads()
-            mapa[i][j].sequia()
-            mapa[i][j].water()
-            color = (0, mapa[i][j].fert, mapa[i][j].h2o)
-            py.draw.rect(pantalla, color, py.Rect(i*dimCW, j*dimCH, dimCW, dimCH))
+    for i in range(35):
+        for j in range(35):
+            pantalla.blit(imagenes[matriz[i, j]], (j * 20, i * 20))
             all_sprites.draw(pantalla)
+    py.display.update()
 
 #---------------------------------------------------------------------
 # Inicializa Superficie del Super Extra Mega Mapa.-
@@ -197,5 +172,5 @@ while running:
     all_sprites.update()
     main(largo,ancho,mapa)
     py.display.flip()
-    clock.tick(5)
+    clock.tick(6)
 py.quit()
