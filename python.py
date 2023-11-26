@@ -9,12 +9,12 @@ import random as ra
 #CONSTANTES
 #-------------------------
 
-ancho, largo = 700 , 1000 ; ncx,ncy = 5,5
+ancho, largo = 700 , 700 ; ncx,ncy = 5,5
 dimCW= ancho / ncx ; dimCH= largo / ncy
 posibles_ambientes = ["arido", "humedo", "templado", "frio", "caluroso"]
 posibles_estados = ["vivo","muelto","cazando","bebiendo","reproduciendoce","diambulando",]
 posibles_generos = ["macho","hembra","planti"] ; running = True
-posibles_dietas  = ["carnivoro","herviro","fotosintetico"]; all_sprites = py.sprite.Group()
+posibles_dietas  = ["carnivoro","herviro",]; all_sprites = py.sprite.Group()
 mapa = [] ; clock = py.time.Clock()
 
 #-------------------------
@@ -36,23 +36,19 @@ class organismo:
         self.repcont =          0
 
     def inanicion_desidratacion(self):
+        self.enrg  = int(self.enrg)  - 1
+        self.water = int(self.water) - 1
         if self.enrg < 100:
             self.hp = self.hp - 1
         if self.water < 100:
             self.hp = self.hp - 1
-
+        death(self)
     def death(self):
         if self.hp < 1:
             self.estate = "Muerto"
 
     def reproduction (self):
         pass
-    def max_move(self):
-        if self.postx > 25:
-            self.postx = 25
-            self.postx = 25
-        if self.posty > 25:
-            self.posty = 25
 
 class Animal(organismo, py.sprite.Sprite):
     def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta,colour):
@@ -132,7 +128,7 @@ for i in range(5):
 #animales
 #-------------------------
 
-for i in range(10):
+for i in range(30):
     colour = (ra.randrange(256), ra.randrange(256), ra.randrange(256))
     vida = 100
     daño = 10 if i < 5 else 0  # Los primeros 5 animales son agresivos
@@ -200,7 +196,6 @@ while running:
             running = False
     all_sprites.update()
     main(largo,ancho,mapa)
-
     py.display.flip()
     clock.tick(5)
 py.quit()
