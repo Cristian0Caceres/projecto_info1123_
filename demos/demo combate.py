@@ -7,16 +7,20 @@ class Guerrero:
         self.vida = vida
         self.x = x
         self.y = y
+        self.vivo = True
 
     def mover(self):
-        self.x += random.randint(-1, 1)
-        self.y += random.randint(-1, 1)
+        self.x += random.randint(-10, 10)
+        self.y += random.randint(-10, 10)
         self.x = max(0, min(700, self.x))  # Asegurar que el guerrero se mantiene dentro del mapa
         self.y = max(0, min(700, self.y))  # Asegurar que el guerrero se mantiene dentro del mapa
 
     def atacar(self, otro_guerrero):
         if abs(self.x - otro_guerrero.x) < 10 and abs(self.y - otro_guerrero.y) < 10:
             otro_guerrero.vida -= 10
+            if otro_guerrero.vida <= 0:  # Si la vida del guerrero cae a 0 o menos
+                otro_guerrero.vivo = False  # Cambiar el estado de vivo a False
+
 
 # Inicializar Pygame
 pygame.init()
@@ -25,7 +29,10 @@ pygame.init()
 ventana = pygame.display.set_mode((700, 700))
 
 # Crear 10 guerreros en posiciones aleatorias
-guerreros = [Guerrero(f'Guerrero {i}', 100, random.randint(0, 10), random.randint(0, 700)) for i in range(10)]
+guerreros = [Guerrero(f'Guerrero {i}', 200, random.randint(0, 700), random.randint(0, 700)) for i in range(10)]
+
+# Crear un objeto Clock
+reloj = pygame.time.Clock()
 
 # Bucle principal del juego
 corriendo = True
@@ -42,15 +49,21 @@ while corriendo:
             if guerrero != otro_guerrero:
                 guerrero.atacar(otro_guerrero)
 
+    # Eliminar los guerreros muertos
+    guerreros = [guerrero for guerrero in guerreros if guerrero.vivo]
+
     # Dibujar los guerreros
-    ventana.fill((0, 0, 0))  # Llenar la ventana con blanco
+    ventana.fill((2, 2, 2))  # Llenar la ventana con blanco
     for guerrero in guerreros:
-        if guerrero.vida > 0:  # Solo dibujar el guerrero si su vida es mayor que 0
-            color = (255, 155 + guerrero.vida, 155 + guerrero.vida)  # El color se vuelve más rojo a medida que la vida disminuye
+        if guerrero.vivo:  # Solo dibujar el guerrero si su estado es vivo
+            color = (255, 55 + guerrero.vida, 55 + guerrero.vida)  # El color se vuelve más rojo a medida que la vida disminuye
             pygame.draw.circle(ventana, color, (guerrero.x, guerrero.y), 10)  # Dibujar un círculo en la posición del guerrero
 
     # Actualizar la pantalla
     pygame.display.flip()
+
+    # Limitar la tasa de fotogramas a 6 FPS
+    reloj.tick(600)
 
 # Salir de Pygame
 pygame.quit()
