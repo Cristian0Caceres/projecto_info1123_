@@ -1,7 +1,5 @@
 # SIMULADOR DE ECOSISTEMA
-<div align="center">
-<img src="" alt="simulador" width="200"/>
-</div>
+<div align="center"> <img src="" alt="simulador" width="200"/></div>
 <div align="center">
   projecto_info1123_<br>
   <br>
@@ -13,22 +11,21 @@
 </div>
 
 # Introducción
-
-Para este proyecto se nos ah solictado desarrollar un **Simulador de Ecosistemas** basado en la porgramación **(POO)**.Cuyo objetivo principal es poder representar,manipular,manejar diferentes biomas,eventos y la interaccion de flora y fauna. En donde atravez de una matriz se relizaran dichos escenarios. <br>
-Para crear nuestro simulador , hemos integrado un fondo de pixeles , el cual ira cambiando cada -°N- Ciclo, mostrando una especie de  animación el cual ira adaptandose para previos eventos fututos. <br>
-Por otra parte los animales y plantas son figuras geometricas para diferenciar su especie le hemos integrado diferentes colores y forma.
-**Cuadrado** para los *animales* y **Triangulos** para las *plantas*. <br>
+Para este proyecto se nos ha solicitado desarrollar un **Simulador de Ecosistemas** basado en la programación **(POO)**. Cuyo objetivo principal es poder representar, manipular, manejar diferentes biomas, eventos y la interacción de flora y fauna. En donde atreves de una matriz se realizarán dichos escenarios. 
+Para crear nuestro simulador, hemos integrado un fondo de pixeles, el cual ira cambiando cada -°N- Ciclo, mostrando una especie de animación el cual ira adaptándose para previos eventos fututos. <br>
+Por otra parte, los animales y plantas son figuras geométricas para diferenciar su especie le hemos integrado diferentes colores y forma. **Cuadrado** para los *animales* y **Triángulos** para las *plantas*.<br>
 <br>
-A continuación se explicará los detalles más relevantes de este proyecto. Si usted le interesa saber más, le invitamos revisar nuestra <a href="#">Documentación</a> que habla más ampliamente el proyecto.
+A continuación, se explicará los detalles más relevantes de este proyecto. Si usted le interesa saber más, le invitamos revisar nuestra  <a href="#">Documentación</a> que habla más ampliamente el proyecto.
+
 # Objetivos 
-Nuestros obtivos propuestos lo sub dividimos en 3 secciones "Principal/Secundario/Tersario" esto para poder enmarcar nuestras prioridades a la hora de creación y explicación del simulador.
+Nuestros objetivos propuestos lo subdividimos en 3 secciones "Principal/Secundario/ terciario" esto para poder enmarcar nuestras prioridades a la hora de creación y explicación del simulador. 
 - **Principal**: texto de nuestro objetivo
 - **Secundario**: texto de nuestro objetivo
-- **Terciaros**: texto de nuestro objetivo
+- **Terciaro**: texto de nuestro objetivo
 
 # Componentes del Simulador
 ### 1.Clases Principales
-Como clases fundamentales para poder crear nuestros objetos encontramos a:
+Como clases fundamentales para poder crear nuestros objetos encontramos a: 
    - *Organismo* :
    - *Animal*:
    - *Plantas*:
