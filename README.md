@@ -57,7 +57,7 @@ Para su uso se requiere de . . .
 - time : Controlar el tiempo de cada ciclo
 
 # Herramienta de programación
-- El **simulador de Ecosistema** fue creado con el lenguaje **Python** mediante las herramientas de **Visual Stude Code** y **Github**.
+El **simulador de Ecosistema** fue creado con el lenguaje **Python** mediante las herramientas de **Visual Stude Code** y **Github**.
 
 # Conclusión.
 Ya dando como cierre , en este proyecto se logró comprender el uso del POO ya que este lenguaje de programación permite mostrar una simulación de ecosistema , en donde cada parte de la interfaz gráfica era un objeto que se podía manipular a través de eventos.
