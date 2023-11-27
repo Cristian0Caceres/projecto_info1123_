@@ -13,19 +13,24 @@
 </div>
 
 # Introducción
-Para poder crear un simulador de ecosistema se requiere usar el lenguaje de progracion de objetos (POO), ya que con este podremos manejar eventos y acciones de un simulador.
 
-A continuación se explicarán los detalles más relevantes de este proyecto. Si usted le interesa saber más le invitamos leer la  <a href="#">Documentación.</a> la cual explica a más detalle los objetos
+Para este proyecto se nos ah solictado desarrollar un **Simulador de Ecosistemas** basado en la porgramación **(POO)**.Cuyo objetivo principal es poder representar,manipular,manejar diferentes biomas,eventos y la interaccion de flora y fauna. En donde atravez de una matriz se relizaran dichos escenarios.
+A continuación se explicará los detalles más relevantes de este proyecto. Si usted le interesa saber más, le invitamos revisar nuestra <a href="#">Documentación</a> el cual explica a más ampliamente el simulador.
 
 # Funcionalidades que tiene el ecosistemas
-
-
+El simulador cuenta con las siguientes funcionalidades:
+- **Funcion 1**: texto explicando funcion 1
+- **Funcion 2**: texto explicando funcion 2
+- **Funcion 3**: texto explicando funcion 3
+- **Funcion 4**: texto explicando funcion 4
+- **Funcion 5**: texto explicando funcion 5
+- **Funcion 6**: texto explicando funcion 6
+- **Funcion 7**: texto explicando funcion 7
 
 # Diseño de codigo:
-El código está diseñado con librerías y lenguaje de python.
-
-**Clases Principales**: 
-**
+El código está escrito en POO , donde se manipula cada objeto con sus determinados metodos y atributos y de esta manera obtener un el simulador
+- **Clases Principales**:
+- 
 
 # Tipo de Reglas
 ### Reglas de Animales: Cada especie de animal se puede reproducir de su misma especie y la reproducción entre parientes está limitada
