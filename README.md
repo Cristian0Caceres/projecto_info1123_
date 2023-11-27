@@ -17,6 +17,8 @@
 Para poder crear un simulador de ecosistema se requiere usar el lenguaje de progracion de objetos (POO), ya que con este podremos manejar eventos y acciones de un simulador.
 # Funcionalidades que tiene el ecosistemas
 
+A continuación se explicarán los detalles más relevantes de este proyecto. Si usted le interesa saber más le invitamos leer la  <a href="#">Documentación.</a> la cual explica a más detalle los objetos
+
 # Diseño de codigo:
 El código está diseñado con librerías y lenguaje de python.
 
