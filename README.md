@@ -15,7 +15,7 @@ Para este proyecto se nos ha solicitado desarrollar un **Simulador de Ecosistema
 Para crear nuestro simulador, hemos integrado un fondo de pixeles, el cual ira cambiando cada -°N- Ciclo, mostrando una especie de animación el cual ira adaptándose para previos eventos fututos. <br>
 Por otra parte, los animales y plantas son figuras geométricas para diferenciar su especie le hemos integrado diferentes colores y forma. **Cuadrado** para los *animales* y **Triángulos** para las *plantas*.<br>
 <br>
-A continuación, se explicará los detalles más relevantes de este proyecto. Si usted le interesa saber más, le invitamos revisar nuestra  <a href="#">Documentación</a> que habla más ampliamente el proyecto.
+A continuación, se explicará los detalles más relevantes de este proyecto. Si usted le interesa saber más, le invitamos revisar nuestra  <a href="https://uctcl-my.sharepoint.com/:w:/g/personal/yalvarez2023_alu_uct_cl/Ebri17ahXwlHtXVQ1aO0Q3ABOmlkQvSr4JIf7c2vadMIOw?e=vOftF1">Documentación</a> que habla más ampliamente el proyecto.
 
 # Objetivos 
 Nuestros objetivos propuestos lo subdividimos en 3 secciones "Principal/Secundario/ terciario" esto para poder enmarcar nuestras prioridades a la hora de creación y explicación del simulador. 
@@ -39,7 +39,7 @@ Como clases fundamentales para poder crear nuestros objetos encontramos a:
 - *Ciclo de reproducción*:
 - *Cadena Alimenticia*:
 
-Puede econtrar mas infomación en la <a href="#"> Documentación </a> desde la pagina 4 en adelante
+Puede econtrar mas infomación en la <a href="https://uctcl-my.sharepoint.com/:w:/g/personal/yalvarez2023_alu_uct_cl/Ebri17ahXwlHtXVQ1aO0Q3ABOmlkQvSr4JIf7c2vadMIOw?e=vOftF1"> Documentación </a> desde la pagina 4 en adelante
 
 # Formato visual
 
