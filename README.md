@@ -38,10 +38,10 @@ Como clases fundamentales para poder crear nuestros objetos encontramos a:
    - *Matriz Espacial*:
    - *Motor de eventos*:
 ### 3.Funcionalidades que tiene el ecosistemas
-El simulador cuenta con las siguientes funcionalidades:
-    - **Ciclo de vida**: */Aca explicaremos como funciona/*
-    - **Ciclo de reproducción**: */Aca explicaremos como funciona/*
-    - **Cadena Alimenticia**: */Aca explicaremos como funciona/*
+- *Ciclo de vida*:
+- *Ciclo de reproducción*:
+- *Cadena Alimenticia*:
+
 Puede econtrar mas infomación en la <a href="#"> Documentación </a> desde la pagina 4 en adelante
 
 # Formato visual
