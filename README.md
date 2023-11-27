@@ -15,10 +15,10 @@
 # Introducción
 
 Para este proyecto se nos ah solictado desarrollar un **Simulador de Ecosistemas** basado en la porgramación **(POO)**.Cuyo objetivo principal es poder representar,manipular,manejar diferentes biomas,eventos y la interaccion de flora y fauna. En donde atravez de una matriz se relizaran dichos escenarios. <br>
-<br>
-Para crear nuestro simulador , hemos integrado un fondo de pixeles , el cual ira cambiando cada -°N- Ciclo, mostrando una especie de  animación el cual ira adaptandose para previos eventos fututos mensionados en las funcionalidad **Funcionalidad-3** . <br>
+Para crear nuestro simulador , hemos integrado un fondo de pixeles , el cual ira cambiando cada -°N- Ciclo, mostrando una especie de  animación el cual ira adaptandose para previos eventos fututos. <br>
 Por otra parte los animales y plantas son figuras geometricas para diferenciar su especie le hemos integrado diferentes colores y forma.
 **Cuadrado** para los *animales* y **Triangulos** para las *plantas*. <br>
+<br>
 A continuación se explicará los detalles más relevantes de este proyecto. Si usted le interesa saber más, le invitamos revisar nuestra <a href="#">Documentación</a> que habla más ampliamente el proyecto.
 # Objetivos 
 Nuestros obtivos propuestos lo sub dividimos en 3 secciones "Principal/Secundario/Tersario" esto para poder enmarcar nuestras prioridades a la hora de creación y explicación del simulador.
