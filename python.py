@@ -17,6 +17,8 @@ posibles_estados = ["vivo","muelto","cazando","bebiendo","reproduciendoce","diam
 posibles_generos = ["macho","hembra","planti"] ; running = True
 posibles_dietas  = ["carnivoro","herviro",]; all_sprites = py.sprite.Group()
 mapa = [] ; clock = py.time.Clock()
+ROWS, COLS = 14, 14 
+cuadrado_SIZE = ancho // ROWS
 
 #-------------------------
 #CLASES
@@ -39,6 +41,7 @@ class organismo:
     def death(self):
         if self.hp < 1:
             self.estate = "Muerto"
+
     def inanicion_desidratacion(self):
         self.enrg  = int(self.enrg)  - 1
         self.water = int(self.water) - 1
@@ -46,6 +49,7 @@ class organismo:
             self.hp = self.hp - 1
         if self.water < 100:
             self.hp = self.hp - 1
+
     def reproduction (self):
         pass
 
@@ -71,7 +75,9 @@ class Animal(organismo, py.sprite.Sprite):
         return super().inanicion_desidratacion()
     def death(self):
         return super().death()
+
     def max_move(self):
+
         return super().max_move()
 
 class planta (organismo):
@@ -84,10 +90,9 @@ class planta (organismo):
         return super().death()
 
 class ambiente:
-    def __init__(self,agua,humedad,condiciones_meteorologicas,tipo):
+    def __init__(self,agua,humedad,tipo):
         self.h2o   = agua
         self.hume  = humedad
-        self.cm    = condiciones_meteorologicas
         self.type = tipo
     def humedads(self):
         if self.h2o < 100:
@@ -96,20 +101,29 @@ class ambiente:
     def sequia(self):
         if self.h2o < 1:
             self.h2o == 0
-            self.fert = self.fert - 1
             self.hume = 0
-            self.temp = self.temp + 1
             self.type = "arido"
     def water(self):
         liquido= self.h2o
         rehidratacion=ra.randint in range (0, 4)
         if self.hume > 33 :
             self.h2o=liquido + rehidratacion
+#-------------------------
+#FUNCIONES
+#-------------------------
+def cargar_imagenes():
+    imagenes = []
+    imagenes.append(py.image.load('agua.png'))
+    imagenes.append(py.image.load('tierra.png'))
+    imagenes.append(py.image.load('arena.png'))
+    imagenes.append(py.image.load('montaña.png'))
+    return imagenes
+imagenes = cargar_imagenes()
 
 #--------------------------
 #Matriz
 #--------------------------
-matriz = np.random.choice([0, 1, 2,3], (44, 44))
+grid = [[(ra.randint(0, len(imagenes)-1), ambiente(ra.randint(0, 100), ra.randint(0, 100), ra.choice(['tierra', 'arena', 'montaña', 'agua']))) for ax in range(COLS)] for ay in range(ROWS)]
 #-------------------------
 #animales
 #-------------------------
@@ -128,28 +142,20 @@ for i in range(30):
     dieta = "Carnívoro" if i < 5 else "Herbívoro"
     animal = Animal( vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta,colour)
     all_sprites.add(animal)
-
-#-------------------------
-#FUNCIONES
-#-------------------------
-def cargar_imagenes():
-    imagenes = []
-    imagenes.append(py.image.load('agua.png'))
-    imagenes.append(py.image.load('tierra.png'))
-    imagenes.append(py.image.load('arena.png'))
-    imagenes.append(py.image.load('montaña.png'))
-    return imagenes
-imagenes = cargar_imagenes()
 #-------------------------
 #MAIN
 #-------------------------
 py.init()
 
-def main(ancho,largo,mapa):
+def main(ancho,largo,grid):
     pantalla= py.display.set_mode((ancho,largo))
-    for i in range(14):
-        for j in range(14):
-            pantalla.blit(imagenes[matriz[i, j]], (j * 50, i * 50))
+    for row in range(ROWS):
+        for col in range(COLS):
+            indice, ambiente = grid[row][col]
+            pantalla.blit(imagenes[indice], (row*cuadrado_SIZE, col*cuadrado_SIZE))
+            ambiente.humedads()
+            ambiente.sequia()
+            ambiente.water()
             all_sprites.draw(pantalla)
     py.display.update()
 
@@ -169,7 +175,7 @@ while running:
         if event.type == py.QUIT:
             running = False
     all_sprites.update()
-    main(largo,ancho,mapa)
+    main(largo,ancho,grid)
     py.display.flip()
     ti.sleep(0)
     clock.tick(6)
