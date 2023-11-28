@@ -197,4 +197,4 @@ while True:
 
     py.display.update()
     py.display.flip()
-    clock.tick(150)  # Tiempo de como se vera la animación 
+    clock.tick(150)  
