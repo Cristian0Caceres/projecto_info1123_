@@ -184,13 +184,13 @@ while True:
     if event.type == py.KEYDOWN:
         if event.key == py.K_m:
             py.draw.rect()
-    #     if event.key == py.K_RIGHT:
-    #         speend_x = 3
-    # if event.type == py.KEYUP:  
-    #     if event.key == py.K_LEFT:  
-    #         speend_x = 0
-    #     if event.key == py.K_RIGHT:
-    #         speend_x = 0
+            if event.key == py.K_RIGHT:
+                speend_x = 3
+        if event.type == py.KEYUP:
+            if event.key == py.K_LEFT:
+                speend_x = 0
+            if event.key == py.K_RIGHT:
+                speend_x = 0
 
     MATRIS_SIMULADOR()
 

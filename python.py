@@ -10,9 +10,8 @@ import time as ti
 #CONSTANTES
 #-------------------------
 
-ancho, largo = 700 , 700 ; ncx,ncy = 5,5
+ancho, largo = 1000 , 600 ; ncx,ncy = 5,5
 dimCW= ancho / ncx ; dimCH= largo / ncy
-posibles_ambientes = ["arido", "humedo", "templado", "frio", "caluroso"]
 posibles_estados = ["vivo","muelto"]
 posibles_generos = ["macho","hembra","planti"] ; running = True
 posibles_dietas  = ["carnivoro","herviro",]; all_sprites = py.sprite.Group()
@@ -21,7 +20,7 @@ ROWS, COLS = 14, 14;todos = py.sprite.Group()
 cuadrado_SIZE = ancho // ROWS;FPS = 60;MAX_HIJOS = 6;TIEMPO_REPRODUCCION = FPS * 3;MAX_ANIMALES = 15
 py.init()
 #-------------------------
-#CLASES
+#CLASES Y METODOS
 #-------------------------
 
 class Organismo:
@@ -129,20 +128,28 @@ class Planta (Organismo):
         py.draw.polygon(ventana, self.color, [(self.postx, self.posty), (self.postx + 5, self.posty + 5), (self.postx, self.posty + 5)])
 
 class ambiente:
-    def __init__(self,agua,humedad,tipo):
-        self.h2o   = agua
+    def __init__(self,agua,humedad,tipo,psy,psx):
+        self.h2o   =    agua
         self.hume  = humedad
-        self.type = tipo
-    def humedads(self):
+        self.type  =    tipo
+        self.posy  =     psy
+        self.posx  =     psx
+    def humedads(self,posy,posx):
+        posy=posy
+        posx=posx
         if self.h2o < 100:
             self.hume = self.hume-1
 
-    def sequia(self):
+    def sequia(self,posy,posx):
+        posy=posy
+        posx=posx
         if self.h2o < 1:
             self.h2o == 0
             self.hume = 0
             self.type = "arido"
-    def water(self):
+    def water(self,posy,posx):
+        posy=posy
+        posx=posx
         liquido= self.h2o
         rehidratacion=ra.randint in range (0, 4)
         if self.hume > 33 :
@@ -152,17 +159,80 @@ class ambiente:
 #-------------------------
 def cargar_imagenes():
     imagenes = []
-    imagenes.append(py.image.load('agua.png'))
-    imagenes.append(py.image.load('tierra.png'))
-    imagenes.append(py.image.load('arena.png'))
-    imagenes.append(py.image.load('montaña.png'))
+    imagenes.append(py.image.load('verde.jpg')) # VERDE  [0]
+    imagenes.append(py.image.load('naranja.jpg')) # NARANJA [1]
+    imagenes.append(py.image.load('rojo.jpg')) # ROJO [2]
+    imagenes.append(py.image.load('morado1.jpg')) # MORADO 1[3]
+    imagenes.append(py.image.load('amarillo.jpg')) # AMARILLO [4]
+    imagenes.append(py.image.load('gris.jpg')) # GRIS [5]
+    imagenes.append(py.image.load('celeste1.jpg')) # CELESTE 1 [6]
+    imagenes.append(py.image.load('celeste2.jpg')) # CELESTE 2 [7]
+    imagenes.append(py.image.load('morado2.jpg')) # MORADO 2[8]
     return imagenes
-imagenes = cargar_imagenes()
 
 #--------------------------
 #Matriz
 #--------------------------
-grid = [[(ra.randint(0, len(imagenes)-1), ambiente(ra.randint(0, 100), ra.randint(0, 100), ra.choice(['tierra', 'arena', 'montaña', 'agua']))) for ax in range(COLS)] for ay in range(ROWS)]
+def MATRIS_SIMULADOR():
+    imagenes = cargar_imagenes()
+    grid = [
+        [3,3,3,3,7,7,7,7,7,7,7,7,7,7,7,1,1,1,1,1,1,1,4,4,4,4,4,4,4,4,4,4],
+        [3,3,3,7,7,7,7,7,7,7,7,7,7,7,7,7,1,1,1,1,1,1,1,4,4,4,4,4,4,4,4,4],
+        [3,3,7,7,7,7,7,7,7,7,7,7,7,7,7,7,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4],
+        [3,7,7,7,7,0,7,7,7,7,7,7,7,7,7,7,7,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4],
+        [7,7,7,0,0,0,0,2,7,7,7,7,7,7,7,7,7,7,1,1,1,1,1,1,1,4,4,4,4,4,4,4],
+        [7,7,7,0,0,0,0,2,7,7,7,7,7,7,7,7,7,7,7,1,1,1,1,1,4,4,4,4,4,4,4,4],
+        [7,7,7,2,0,0,0,2,7,7,7,7,7,7,7,7,7,7,7,7,7,1,1,4,4,4,4,4,4,4,4,4],
+        [7,7,7,7,2,0,0,2,7,7,7,7,7,7,7,7,7,7,7,1,1,1,1,4,4,4,4,4,4,4,4,4],
+        [7,7,7,7,2,2,2,7,7,7,7,7,7,7,7,7,7,7,1,1,1,4,4,4,7,4,4,4,4,4,4,4],
+        [7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,1,4,4,4,7,7,7,7,4,4,4,4,4],
+        [7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,4,4,7,7,7,0,7,7,7,7,7,7],
+        [7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,4,7,0,0,0,0,7,7,7,7,7],
+        [7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,0,0,0,0,0,0,0,0,0],
+        [7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [3,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [3,3,7,7,7,7,7,7,7,7,7,7,7,7,7,7,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0],
+        [3,3,3,7,7,7,7,7,7,7,7,7,7,7,7,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0],
+        [3,3,3,3,7,7,7,7,7,7,7,7,7,7,3,2,2,2,2,2,2,0,0,7,0,0,0,0,0,0,0,0],
+        [3,3,3,3,3,7,7,7,7,7,7,7,7,7,3,2,2,2,2,2,2,2,7,7,7,0,0,0,0,0,0,0],
+        [3,3,3,3,3,3,7,7,7,7,7,7,7,3,3,2,2,2,2,2,2,7,7,7,7,7,7,7,7,0,0,0],
+        [3,3,3,7,3,3,3,7,7,7,7,7,7,7,3,3,2,2,2,2,2,2,7,7,7,7,7,7,0,0,0,0],
+        [3,3,7,7,3,3,3,7,7,7,7,7,7,3,3,3,2,2,7,7,2,2,2,2,7,2,7,0,0,0,0,0],
+        [3,3,3,3,3,3,3,7,7,7,7,7,3,3,3,3,2,2,7,2,2,2,2,2,2,2,2,0,0,0,0,0],
+        [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0]
+    ]
+    for i in range(24):
+        for j in range(32):
+            if grid[i][j] == 0:
+                pantalla.blit(imagenes[0], (j * 25, i * 25))
+                ambiente(70, 60, 'tierra',  j * 25, i * 25)
+            if grid[i][j] == 1:
+                pantalla.blit(imagenes[1], (j * 25, i * 25))
+                ambiente(30, 30,"semi arido",  j * 25, i * 25)
+            if grid[i][j] == 2:
+                pantalla.blit(imagenes[2], (j * 25, i * 25))
+                ambiente(60, 50,"terroso",  j * 25, i * 25)
+            if grid[i][j] == 3:
+                pantalla.blit(imagenes[3], (j * 25, i * 25))
+                ambiente(30, 30,"semi arido",  j * 25, i * 25)
+            if grid[i][j] == 4:
+                pantalla.blit(imagenes[4], (j * 25, i * 25))
+                ambiente(30, 30,"semi arido",  j * 25, i * 25)
+            if grid[i][j] == 5:
+                pantalla.blit(imagenes[5], (j * 25, i * 25))
+                ambiente(30, 30,"semi arido",  j * 25, i * 25)
+            if grid[i][j] == 6:
+                pantalla.blit(imagenes[6], (j * 25, i * 25))
+                ambiente(30, 30,"semi arido",  j * 25, i * 25)
+            if grid[i][j] == 7:
+                pantalla.blit(imagenes[7], (j * 25, i * 25))
+                ambiente(30, 30,"semi arido",  j * 25, i * 25)
+            if grid[i][j] == 8:
+                pantalla.blit(imagenes[8], (j * 25, i * 25))
+                ambiente(30, 30,"semi arido",  j * 25, i * 25)
+            ambiente.humedads(i*25,j*25)
+            ambiente.sequia(i*25,j*25)
+            ambiente.water(i*25,j*25)
 #-------------------------
 #animales
 #-------------------------
@@ -191,16 +261,12 @@ contador_coloores = {color: 3 for color in coloores}
 contadores_color = {color: 1 for color in colores}
 running=True
 while running:
-    for row in range(ROWS):
-        for col in range(COLS):
-            indice, ambiente = grid[row][col]
-            pantalla.blit(imagenes[indice], (row*cuadrado_SIZE, col*cuadrado_SIZE))
-            ambiente.humedads()
-            ambiente.sequia()
-            ambiente.water()
+    pantalla.fill((128,128,128))
+    MATRIS_SIMULADOR()
+
 
     for animal in todos:
-        animal.beber_agua(grid)
+        #animal.beber_agua(grid)
         animal.mover()
         animal.actualizar()
         for otro in todos:
