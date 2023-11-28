@@ -82,13 +82,13 @@ class Animal(Organismo, py.sprite.Sprite):
         self.rect.x += ra.randint(-1, 1)
         self.rect.y += ra.randint(-1, 1)
 
-        # If the animal is blue (a herbivore), check for collision with plants
+
         if self.color == (0, 0, 255):
             hit_list = py.sprite.spritecollide(self, todos, False)
             for hit in hit_list:
                 if isinstance(hit, Planta):
-                    # Eat the plant and remove it from the game
-                    self.tiempo_reproduccion -= 10  # Eating a plant decreases the reproduction time
+
+                    self.tiempo_reproduccion -= 10
                     todos.remove(hit)
 
     def actualizar(self):
@@ -165,17 +165,21 @@ for color in colores:
     todos.add(animal)
     animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color, ra.randint(ancho // 2 - 50, ancho // 2 + 50), ra.randint(largo // 2 - 50, largo // 2 + 50),0,0)
     todos.add(animal)
-#-------------------------
-#MAIN
-#-------------------------
 
-def main(ancho,largo,grid,Planta):
-    pantalla= py.display.set_mode((ancho,largo))
-    all_sprites.draw(pantalla)
-    coloores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
-    plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 700), ra.randint(0, 700), "fotosintetico", color) for color in coloores for _ in range(3)]
-    contador_coloores = {color: 3 for color in coloores}
+pantalla= py.display.set_mode((ancho,largo))
+all_sprites.draw(pantalla)
+coloores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
+plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 700), ra.randint(0, 700), "fotosintetico", color) for color in coloores for _ in range(3)]
+contador_coloores = {color: 3 for color in coloores}
 
+
+
+#-------------------------
+# CICLO PRINCIPAL
+#-------------------------
+contadores_color = {color: 1 for color in colores}
+running=True
+while running:
     for row in range(ROWS):
         for col in range(COLS):
             indice, ambiente = grid[row][col]
@@ -184,58 +188,42 @@ def main(ancho,largo,grid,Planta):
             ambiente.sequia()
             ambiente.water()
 
-    py.display.update()
-
-    #-------------------------
-    # CICLO PRINCIPAL
-    #-------------------------
-    contadores_color = {color: 1 for color in colores}
-    running=True
-    while running:
-
-        for animal in todos:
-            animal.mover()
-            animal.actualizar()
-            for otro in todos:
-                if animal != otro and py.sprite.collide_rect(animal, otro):
-                    hijo = animal.reproduction(otro, todos)
-                    if hijo is not None:
-                        todos.add(hijo)
-                        try:
-                            contadores_color[hijo.color] += 1
-                        except Exception as e:
-                            print("esto aun no esta arreglado atte:cc, momento de panico!!!,error:",e)
-        nuevas_plantas = []
-        for planta in plantas:
-            planta.cycles += 1
-            planta.dibujar(pantalla)
-            nuevas_posiciones = planta.reproduction()
-            for pos in nuevas_posiciones:
-                if contador_coloores[planta.color] < 600:
-                    nuevas_plantas.append(Planta(100, 0, 50, 50, "vivo", "planti", pos[0], pos[1], "fotosintetico", planta.color))
-                    contador_coloores[planta.color] += 1
-            planta.desidratacion()
-            planta.death()
-            if planta.estate == "Muerto":
-                plantas.remove(planta)
-                contador_coloores[planta.color] -= 1
-        plantas.extend(nuevas_plantas)
-        todos.draw(pantalla)
-        for event in py.event.get():
-            if event.type == py.QUIT:
-                running = False
-        all_sprites.update()
-        py.display.flip()
-        ti.sleep(0)
-        clock.tick(60)
-    py.quit()
-
-#---------------------------------------------------------------------
-# Inicializa Superficie del Super Extra Mega Mapa.-
-#---------------------------------------------------------------------
-
-def Get_Surface(ancho,alto):
-    return py.Surface((ancho,alto))
-
-if __name__ == "__main__":
-    main(ancho,largo,grid,Planta)
+    for animal in todos:
+        animal.mover()
+        animal.actualizar()
+        for otro in todos:
+            if animal != otro and py.sprite.collide_rect(animal, otro):
+                hijo = animal.reproduction(otro, todos)
+                if hijo is not None:
+                    todos.add(hijo)
+                    try:
+                        contadores_color[hijo.color] += 1
+                    except Exception as e:
+                        print("-----------------------------")
+                        print("estoy cansado jefe:",e)
+                        print("-----------------------------")
+    all_sprites.update()
+    nuevas_plantas = []
+    for planta in plantas:
+        planta.cycles += 1
+        planta.dibujar(pantalla)
+        nuevas_posiciones = planta.reproduction()
+        for pos in nuevas_posiciones:
+            if contador_coloores[planta.color] < 600:
+                nuevas_plantas.append(Planta(100, 0, 50, 50, "vivo", "planti", pos[0], pos[1], "fotosintetico", planta.color))
+                contador_coloores[planta.color] += 1
+        planta.desidratacion()
+        planta.death()
+        if planta.estate == "Muerto":
+            plantas.remove(planta)
+            contador_coloores[planta.color] -= 1
+    plantas.extend(nuevas_plantas)
+    todos.draw(pantalla)
+    for event in py.event.get():
+        if event.type == py.QUIT:
+            running = False
+    all_sprites.update()
+    py.display.flip()
+    ti.sleep(0)
+    clock.tick(60)
+py.quit()
