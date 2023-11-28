@@ -96,6 +96,7 @@ class Animal(Organismo, py.sprite.Sprite):
     def beber_agua(self, grid):
         celda_x = int(self.rect.x // dimCW)
         celda_y = int(self.rect.y // dimCH)
+        print("mira tu como los peces en el rio al ver a jesus nacer6")
 
         if grid[celda_y][celda_x] == 0:
             self.agua = min(100, self.agua + 10)
@@ -120,7 +121,13 @@ class Planta (Organismo):
             self.repcont = 0
             self.enrg = int(self.water) -1
             self.death()
-            return [(self.postx + ra.randint(-10, 10), self.posty + ra.randint(-10, 10)) for _ in range(ra.randint(0, 2))]
+            if self.postx > 600:
+                if self.posty > 600:
+                    return [(self.postx, self.posty) for _ in range(ra.randint(0, 2))]
+                else:
+                    return [(self.postx, self.posty + ra.randint(-10, 10)) for _ in range(ra.randint(0, 2))]
+            else:
+                return [(self.postx + ra.randint(-10, 10), self.posty + ra.randint(-10, 10)) for _ in range(ra.randint(0, 2))]
         else:
             self.repcont += 1
             return []
@@ -175,9 +182,7 @@ def cargar_imagenes():
 #--------------------------
 #Matriz
 #--------------------------
-def MATRIS_SIMULADOR():
-    imagenes = cargar_imagenes()
-    grid = [
+grid = [
         [3,3,3,3,8,8,8,8,8,8,8,8,8,8,8,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0],
         [3,3,3,8,8,8,8,8,8,8,8,8,8,8,8,8,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0],
         [3,3,8,8,8,8,8,8,8,8,8,8,8,8,8,8,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0],
@@ -203,6 +208,8 @@ def MATRIS_SIMULADOR():
         [5,5,8,8,8,5,5,3,8,8,8,8,8,3,3,3,3,2,2,8,2,2,2,2,2,2,2,1,1,1,1,1],
         [5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1]
         ]
+def Crea_Mapa(grid):
+    imagenes = cargar_imagenes()
     for i in range(24):
         for j in range(32):
             if grid[i][j] == 0:
@@ -253,7 +260,7 @@ pantalla= py.display.set_mode((ancho,largo))
 all_sprites.draw(pantalla)
 coloores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
 plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 600)
-            , ra.randint(0, 600), "fotosintetico", color) for color in coloores for _ in range(3)]
+, ra.randint(0, 600), "fotosintetico", color) for color in coloores for _ in range(3)]
 contador_coloores = {color: 3 for color in coloores}
 
 
@@ -265,11 +272,9 @@ contadores_color = {color: 1 for color in colores}
 running=True
 while running:
     pantalla.fill((128,128,128))
-    MATRIS_SIMULADOR()
-
-
+    Crea_Mapa(grid)
     for animal in todos:
-        #animal.beber_agua(grid)
+        animal.beber_agua(grid)
         animal.mover()
         animal.actualizar()
         for otro in todos:
@@ -308,6 +313,6 @@ while running:
             running = False
     all_sprites.update()
     py.display.flip()
-    ti.sleep(0)
-    clock.tick(60)
+    ti.sleep(0.01)
+    clock.tick(6)
 py.quit()
