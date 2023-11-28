@@ -53,7 +53,7 @@ Las plantas presentan un ciclo de reproducción asexual que después de 3 ciclos
 La cadena alimenticia se compone de las plantas como eslabón más bajo posteriormente los distintos tipos de herbívoros y finalmente los carnívoros
 - *Interfaz de Usuario*:El programa presenta una interfaz lateral la cual explica a que equivale cada forma y su color dentro del programa en conjunto a las teclas de acción las cuales van del 1 al 3 estas representan los eventos que se pueden desencadenar dentro del ecosistema.
 <br>
-Puede econtrar más infomación en la <a href="https://uctcl-my.sharepoint.com/:w:/g/personal/yalvarez2023_alu_uct_cl/Ebri17ahXwlHtXVQ1aO0Q3ABOmlkQvSr4JIf7c2vadMIOw"> Documentación </a> en la pagina 7 , se explica ah detalle el **COdigo intero del Simulador** y como esto se ve presente en la intefaz
+Puede econtrar más infomación en la <a href="https://uctcl-my.sharepoint.com/:w:/g/personal/yalvarez2023_alu_uct_cl/Ebri17ahXwlHtXVQ1aO0Q3ABOmlkQvSr4JIf7c2vadMIOw"> Documentación </a> en la pagina 7 , se explica ah detalle el **Código intero del Simulador** y como esto se ve presente en la intefaz
 
 # Formato visual
 <div align="center"> <img src="Imagen/mapa3.png" alt="simulador" width="700"/></div>
