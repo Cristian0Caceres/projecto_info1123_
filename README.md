@@ -21,37 +21,46 @@ A continuación, se explicará los detalles más relevantes de este proyecto. Si
 
 # Objetivos 
 Nuestros objetivos propuestos lo subdividimos en 3 secciones "Principal/Secundario/ terciario" esto para poder enmarcar nuestras prioridades a la hora de creación y explicación del simulador. 
-- **Principal**: texto de nuestro objetivo
-- **Secundario**: texto de nuestro objetivo
-- **Terciaro**: texto de nuestro objetivo
+- **Principal**:
+  - Definir el diseño que tendrá en simulador
+  - Asignar una matriz de 24 x35 para el ecosistema
+  - Crear las características y comportamiento de los objetos que provengan de las clases principales
+  - Cumplir con las funciones necesarias
+  - Realizar interfaz grafica
+  - Definir reglas  
+- **Secundario**:
+  - Realizar interfaz de los eventos catastróficos
+  - Corregir bugs secundarios que no afecten tanto el código
+  - Experimentar con una animación más fluida 
 
 # Componentes del Simulador
 ### 1.Clases Principales
 Como clases fundamentales para poder crear nuestros objetos encontramos a: 
-   - *Organismo* :
-   - *Animal*:
-   - *Plantas*:
-   - *Ambiente*:
+   - *Organismo*: La clase de organismos se encarga de la estructura principal que tendrán las plantas y animales teniendo en cuenta aquellas cosas que tienen en común por lo mismo esta clase posee algunos métodos que ambas subclases heredan.
+   - *Animal*: Subclase derivada de organismo la cual delimita lo que es un animal en este código dándole sus característica.
+   - *Plantas*: Encargada de la generación de plantas 
+Subclase derivada de organismos la cual delimita el comportamiento de las plantas y sus características principales.
+   - *Ambiente*:clase encargada de generar las características de cada ambiente para su diferenciación dentro de sus características generadas esta clase es la llamada clase ecosistema que para más facilidad y comodidad de nuestra parte se decidió llamar ambiente.
    - *Ecosistema*:
 ### 2.Estructura de Datos
-   - *Matriz Espacial*:
-   - *Motor de eventos*:
+   - *Matriz Espacial*:Se creo una matriz predefinida para la mayor facilidad del manejo de los eventos y métodos de cada ser que interviene dentro del código.Es una matriz de 24x35 y esta representa el mapa de nuestro ecosistema.
+   - *Motor de eventos*: Actualmente se cuenta con 3 tipos de eventos de catastrodes Terremoto, Meteoritos, Tsunami. Estos se activaran al precionar una tecla en especifica.
 ### 3.Funcionalidades que tiene el ecosistemas
-- *Ciclo de vida*:
-- *Ciclo de reproducción*:
+- *Ciclo de vida*:Los animales dentro del ecosistema presentan un ciclo de vida básico donde estos se reproducen unas 3 veces y mueren dándoles un tiempo de vida algo corto a diferencia de las plantas las cuales en el momento de reproducirse mueren dejando atrás sus semillas 
+- *Ciclo de reproducción*:El ciclo de reproducción presente en los animales provoca la aparición des de 0 a 2 crías las cuales tienen una demora en su tiempo de reproducción de 3 ciclos antes de habilitarse esta característica además de limitar esta para evitar que se reproduzcan con sus padres directos.<br>
+Las plantas presentan un ciclo de reproducción asexual que después de 3 ciclos crea plantas para luego morir dejando a las otras 2 plantas ansiosas de su destino final   
 - *Cadena Alimenticia*:
-
-Puede econtrar mas infomación en la <a href="https://uctcl-my.sharepoint.com/:w:/g/personal/yalvarez2023_alu_uct_cl/Ebri17ahXwlHtXVQ1aO0Q3ABOmlkQvSr4JIf7c2vadMIOw"> Documentación </a> desde la pagina 4 en adelante
+La cadena alimenticia se compone de las plantas como eslabón más bajo posteriormente los distintos tipos de herbívoros y finalmente los carnívoros
+- *Interfaz de Usuario*:El programa presenta una interfaz lateral la cual explica a que equivale cada forma y su color dentro del programa en conjunto a las teclas de acción las cuales van del 1 al 3 estas representan los eventos que se pueden desencadenar dentro del ecosistema.
+<br>
+Puede econtrar más infomación en la <a href="https://uctcl-my.sharepoint.com/:w:/g/personal/yalvarez2023_alu_uct_cl/Ebri17ahXwlHtXVQ1aO0Q3ABOmlkQvSr4JIf7c2vadMIOw"> Documentación </a> en la pagina 7 , se explica ah detalle el **COdigo intero del Simulador** y como esto se ve presente en la intefaz
 
 # Formato visual
 <div align="center"> <img src="Imagen/mapa3.png" alt="simulador" width="700"/></div>
 
 # Manejo de datos
 - Almacenamiento: Los datos del simulador se guardan en un archivo llamado JSON
-# Guia de Uso.
-Para su uso se requiere de . . .
-- **Reglas a tener encuenta**
-  
+
 # Biblotecas utilizadas.
 - Pygame: Se utilizó principalmente para mostrar una interfaz gráfica 2D y usar sus herramientas para mejor manejo de eventos.
 - numpy : Esta librería se utilizó para crear la matriz de nuestro simulador que seria el mapa
