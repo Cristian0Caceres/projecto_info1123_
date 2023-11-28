@@ -70,7 +70,7 @@ class Animal(Organismo, py.sprite.Sprite):
         if (self.color == otro.color and otro not in self.hijos and self not in otro.hijos and
             self.tiempo_reproduccion >= TIEMPO_REPRODUCCION and len(self.hijos) < MAX_HIJOS and
             len([x for x in todos if x.color == self.color]) < MAX_ANIMALES):
-            hijo = Animal(self.hp,self.dmg,self.enrg,self.water,self.estate,self.gender,self.diet,self.color, self.rect.x, self.rect.y,self.postx,self.posty)
+            hijo = Animal(self.hp,self.dmg,self.enrg,self.water,self.estate,self.gender,self.diet,otro.color, self.rect.x, self.rect.y,self.postx,self.posty)
             self.hijos.append(hijo)
             otro.hijos.append(hijo)
             self.tiempo_reproduccion = 0
@@ -239,18 +239,21 @@ def MATRIS_SIMULADOR():
 colores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0)]
 for color in colores:
 
-    x = ra.choice([ra.randint(0, ancho // 2 - 25), ra.randint(ancho // 2 + 25, ancho)])
+    x = ra.choice([ra.randint(0, (ancho-400) // 2 - 25), ra.randint((ancho-400) // 2 + 25, (ancho-400))])
     y = ra.choice([ra.randint(0, largo // 2 - 25), ra.randint(largo // 2 + 25, largo)])
     numerocromosomico=ra.randint in range (0,2)
     hervorcar=ra.randint in range (0,2)
-    animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
+    animal = Animal(100,10,100,100,"vivo"
+    ,"macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
     todos.add(animal)
-    animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
+    animal = Animal(100,10,100,100,"vivo"
+    ,"macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
     todos.add(animal)
 pantalla= py.display.set_mode((ancho,largo))
 all_sprites.draw(pantalla)
 coloores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
-plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 700), ra.randint(0, 700), "fotosintetico", color) for color in coloores for _ in range(3)]
+plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 600)
+            , ra.randint(0, 600), "fotosintetico", color) for color in coloores for _ in range(3)]
 contador_coloores = {color: 3 for color in coloores}
 
 
@@ -278,8 +281,11 @@ while running:
                         contadores_color[hijo.color] += 1
                     except Exception as e:
                         print("-----------------------------")
-                        print("estoy cansado jefe:",e)
+                        print("error code:",e)
                         print("-----------------------------")
+
+
+                        print("Estoy cansado jefe")
     all_sprites.update()
     nuevas_plantas = []
     for planta in plantas:
