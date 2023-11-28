@@ -71,8 +71,6 @@ class Animal(Organismo, py.sprite.Sprite):
         if (self.color == otro.color and otro not in self.hijos and self not in otro.hijos and
             self.tiempo_reproduccion >= TIEMPO_REPRODUCCION and len(self.hijos) < MAX_HIJOS and
             len([x for x in todos if x.color == self.color]) < MAX_ANIMALES):
-            numerocromosomico=ra.randint in range (0,2)
-            hervorcar=ra.randint in range (0,2)
             hijo = Animal(self.hp,self.dmg,self.enrg,self.water,self.estate,self.gender,self.diet,self.color, self.rect.x, self.rect.y,self.postx,self.posty)
             self.hijos.append(hijo)
             otro.hijos.append(hijo)
@@ -203,7 +201,10 @@ def main(ancho,largo,grid,Planta):
                     hijo = animal.reproduction(otro, todos)
                     if hijo is not None:
                         todos.add(hijo)
-                        contadores_color[hijo.color] += 1
+                        try:
+                            contadores_color[hijo.color] += 1
+                        except Exception as e:
+                            print("esto aun no esta arreglado atte:cc, momento de panico!!!,error:",e)
         nuevas_plantas = []
         for planta in plantas:
             planta.cycles += 1
