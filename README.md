@@ -44,7 +44,7 @@ Como clases fundamentales para poder crear nuestros objetos encontramos a:
 Puede econtrar mas infomación en la <a href="https://uctcl-my.sharepoint.com/:w:/g/personal/yalvarez2023_alu_uct_cl/Ebri17ahXwlHtXVQ1aO0Q3ABOmlkQvSr4JIf7c2vadMIOw"> Documentación </a> desde la pagina 4 en adelante
 
 # Formato visual
-
+<div align="center"> <img src="Imagen/mapa3.png" alt="simulador" width="700"/></div>
 
 # Manejo de datos
 - Almacenamiento: Los datos del simulador se guardan en un archivo llamado JSON
