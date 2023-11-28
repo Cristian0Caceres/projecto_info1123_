@@ -56,6 +56,15 @@ La cadena alimenticia se compone de las plantas como eslabón más bajo posterio
 Puede econtrar más infomación en la <a href="https://uctcl-my.sharepoint.com/:w:/g/personal/yalvarez2023_alu_uct_cl/Ebri17ahXwlHtXVQ1aO0Q3ABOmlkQvSr4JIf7c2vadMIOw"> Documentación </a> en la pagina 7 , se explica ah detalle el **Código intero del Simulador** y como esto se ve presente en la intefaz
 
 # Formato visual
+El mapa presenta una dimencion de 800x600,con una matriz de 25x32. Cada cuadro del mapa mide un 25x25 pixeles y para conformar este mapa colorido se inicializo en matriz con los numeros de colores asignado, Y que más adelante este sera modificado. Los colores presenta diferentes biomas:
+- Blanco: Atartica
+- Verde claro 1: Bosque templado
+- Verde claro 2: Bosque
+- Verde oscuro: Selva
+- Narajo: Decierto
+- Azul: Segun su tamaño ,puede ser mar, lago,rio
+- Gris: Rocas
+- Rojo: Isla
 <div align="center"> <img src="Imagen/mapa3.png" alt="simulador" width="700"/></div>
 
 # Manejo de datos
