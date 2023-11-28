@@ -94,6 +94,15 @@ class Animal(Organismo, py.sprite.Sprite):
     def actualizar(self):
         self.tiempo_reproduccion += 1
 
+    def beber_agua(self, grid):
+        celda_x = int(self.rect.x // dimCW)
+        celda_y = int(self.rect.y // dimCH)
+
+        if grid[celda_y][celda_x] == 0:
+            self.agua = min(100, self.agua + 10)
+            self.sed = max(0, self.sed - 10)
+
+
 class Planta (Organismo):
     def __init__(self, vida, daño, energia, sed, estado, genero, posicionx, posiciony, dieta, color):
         super().__init__(vida, daño, energia, sed, estado, genero, posicionx, posiciony, dieta, color)
@@ -159,13 +168,15 @@ grid = [[(ra.randint(0, len(imagenes)-1), ambiente(ra.randint(0, 100), ra.randin
 #-------------------------
 colores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0)]
 for color in colores:
+
+    x = ra.choice([ra.randint(0, ancho // 2 - 25), ra.randint(ancho // 2 + 25, ancho)])
+    y = ra.choice([ra.randint(0, largo // 2 - 25), ra.randint(largo // 2 + 25, largo)])
     numerocromosomico=ra.randint in range (0,2)
     hervorcar=ra.randint in range (0,2)
-    animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color, ra.randint(ancho // 2 - 50, ancho // 2 + 50), ra.randint(largo // 2 - 50, largo // 2 + 50),0,0)
+    animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
     todos.add(animal)
-    animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color, ra.randint(ancho // 2 - 50, ancho // 2 + 50), ra.randint(largo // 2 - 50, largo // 2 + 50),0,0)
+    animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
     todos.add(animal)
-
 pantalla= py.display.set_mode((ancho,largo))
 all_sprites.draw(pantalla)
 coloores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
@@ -189,6 +200,7 @@ while running:
             ambiente.water()
 
     for animal in todos:
+        animal.beber_agua(grid)
         animal.mover()
         animal.actualizar()
         for otro in todos:
