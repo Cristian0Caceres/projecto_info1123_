@@ -71,7 +71,9 @@ class Animal(Organismo, py.sprite.Sprite):
         if (self.color == otro.color and otro not in self.hijos and self not in otro.hijos and
             self.tiempo_reproduccion >= TIEMPO_REPRODUCCION and len(self.hijos) < MAX_HIJOS and
             len([x for x in todos if x.color == self.color]) < MAX_ANIMALES):
-            hijo = Animal(self.color, self.rect.x, self.rect.y)
+            numerocromosomico=ra.randint in range (0,2)
+            hervorcar=ra.randint in range (0,2)
+            hijo = Animal(self.hp,self.dmg,self.enrg,self.water,self.estate,self.gender,self.diet,self.color, self.rect.x, self.rect.y,self.postx,self.posty)
             self.hijos.append(hijo)
             otro.hijos.append(hijo)
             self.tiempo_reproduccion = 0
@@ -169,12 +171,12 @@ for color in colores:
 #MAIN
 #-------------------------
 
-def main(ancho,largo,grid):
+def main(ancho,largo,grid,Planta):
     pantalla= py.display.set_mode((ancho,largo))
     all_sprites.draw(pantalla)
-    colores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
-    plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 700), ra.randint(0, 700), "fotosintetico", color) for color in colores for _ in range(3)]
-    contador_colores = {color: 3 for color in colores}
+    coloores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
+    plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 700), ra.randint(0, 700), "fotosintetico", color) for color in coloores for _ in range(3)]
+    contador_coloores = {color: 3 for color in coloores}
 
     for row in range(ROWS):
         for col in range(COLS):
@@ -183,39 +185,39 @@ def main(ancho,largo,grid):
             ambiente.humedads()
             ambiente.sequia()
             ambiente.water()
-    
+
     py.display.update()
 
     #-------------------------
     # CICLO PRINCIPAL
     #-------------------------
+    contadores_color = {color: 1 for color in colores}
     running=True
     while running:
-        contadores_color = {color: 1 for color in colores}
-        
+
         for animal in todos:
-                animal.mover()
-                animal.actualizar()
-                for otro in todos:
-                    if animal != otro and py.sprite.collide_rect(animal, otro):
-                        hijo = animal.reproduction(otro, todos)
-                        if hijo is not None:
-                            todos.add(hijo)
-                            contadores_color[hijo.color] += 1
+            animal.mover()
+            animal.actualizar()
+            for otro in todos:
+                if animal != otro and py.sprite.collide_rect(animal, otro):
+                    hijo = animal.reproduction(otro, todos)
+                    if hijo is not None:
+                        todos.add(hijo)
+                        contadores_color[hijo.color] += 1
         nuevas_plantas = []
-        for Planta in plantas:
-            Planta.cycles += 1
-            Planta.dibujar(pantalla)
-            nuevas_posiciones = Planta.reproduction()
+        for planta in plantas:
+            planta.cycles += 1
+            planta.dibujar(pantalla)
+            nuevas_posiciones = planta.reproduction()
             for pos in nuevas_posiciones:
-                if contador_colores[Planta.color] < 600:
-                    nuevas_plantas.append(Planta(100, 0, 50, 50, 0, "vivo", "planti", pos[0], pos[1], "fotosintetico", Planta.color))
-                    contador_colores[Planta.color] += 1
-            Planta.desidratacion()
-            Planta.death()
-            if Planta.estate == "Muerto":
-                plantas.remove(Planta)
-                contador_colores[Planta.color] -= 1
+                if contador_coloores[planta.color] < 600:
+                    nuevas_plantas.append(Planta(100, 0, 50, 50, "vivo", "planti", pos[0], pos[1], "fotosintetico", planta.color))
+                    contador_coloores[planta.color] += 1
+            planta.desidratacion()
+            planta.death()
+            if planta.estate == "Muerto":
+                plantas.remove(planta)
+                contador_coloores[planta.color] -= 1
         plantas.extend(nuevas_plantas)
         todos.draw(pantalla)
         for event in py.event.get():
@@ -224,7 +226,7 @@ def main(ancho,largo,grid):
         all_sprites.update()
         py.display.flip()
         ti.sleep(0)
-        clock.tick(6)
+        clock.tick(60)
     py.quit()
 
 #---------------------------------------------------------------------
@@ -235,4 +237,4 @@ def Get_Surface(ancho,alto):
     return py.Surface((ancho,alto))
 
 if __name__ == "__main__":
-    main(ancho,largo,grid)
+    main(ancho,largo,grid,Planta)

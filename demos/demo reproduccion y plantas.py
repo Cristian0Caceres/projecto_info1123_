@@ -148,9 +148,7 @@ def main():
                     if hijo is not None:
                         todos.add(hijo)
                         contadores_color[hijo.color] += 1
-
         
-
         ventana.fill((0, 0, 0))
         nuevas_plantas = []
         for planta in plantas:
