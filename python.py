@@ -13,30 +13,31 @@ import time as ti
 ancho, largo = 700 , 700 ; ncx,ncy = 5,5
 dimCW= ancho / ncx ; dimCH= largo / ncy
 posibles_ambientes = ["arido", "humedo", "templado", "frio", "caluroso"]
-posibles_estados = ["vivo","muelto","cazando","bebiendo","reproduciendoce","diambulando",]
+posibles_estados = ["vivo","muelto"]
 posibles_generos = ["macho","hembra","planti"] ; running = True
 posibles_dietas  = ["carnivoro","herviro",]; all_sprites = py.sprite.Group()
 mapa = [] ; clock = py.time.Clock()
-ROWS, COLS = 14, 14 
-cuadrado_SIZE = ancho // ROWS
-
+ROWS, COLS = 14, 14;todos = py.sprite.Group()
+cuadrado_SIZE = ancho // ROWS;FPS = 60;MAX_HIJOS = 6;TIEMPO_REPRODUCCION = FPS * 3;MAX_ANIMALES = 15
+py.init()
 #-------------------------
 #CLASES
 #-------------------------
 
-class organismo:
-    def __init__(self,vida,daño,energia,sed,movimiento,estado,genero,posicionx,posiciony,dieta):
+class Organismo:
+    def __init__(self,vida,daño,energia,sed,estado,genero,posicionx,posiciony,dieta,color):
         self.hp      =       vida
         self.dmg     =       daño
         self.enrg    =    energia
         self.water   =        sed
-        self.move    = movimiento
         self.estate  =     estado
         self.gender  =     genero
         self.postx   =  posicionx
         self.posty   =  posiciony
         self.diet    =      dieta
         self.repcont =          0
+        self.color   =      color
+
 
     def death(self):
         if self.hp < 1:
@@ -50,44 +51,73 @@ class organismo:
         if self.water < 100:
             self.hp = self.hp - 1
 
-    def reproduction (self):
-        pass
-
-class Animal(organismo, py.sprite.Sprite):
-    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta,colour):
-        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta)
+class Animal(Organismo, py.sprite.Sprite):
+    def __init__(self, vida, daño, energia, sed, estado, genero,dieta, color, x, y,posicionx,posiciony):
+        super().__init__(vida, daño, energia, sed, estado, genero,dieta,color,posicionx,posiciony)
         py.sprite.Sprite.__init__(self)
         self.image = py.Surface([10, 10])
-        self.image.fill(colour)
+        self.image.fill(color)
         self.rect = self.image.get_rect()
-        self.rect.x = ra.randrange(700)
-        self.rect.y = ra.randrange(700)
-
-    def update(self):
-        self.rect.x += ra.choice([-20, 20])
-        self.rect.y += ra.choice([-20, 20])
-        if self.rect.x < 0 or self.rect.x > 690:
-            self.rect.x = ra.randrange(700)
-        if self.rect.y < 0 or self.rect.y > 690:
-            self.rect.y = ra.randrange(700)
+        self.rect.x = x
+        self.rect.y = y
+        self.hijos = []
+        self.tiempo_reproduccion = 0
 
     def inanicion_desidratacion(self):
         return super().inanicion_desidratacion()
     def death(self):
         return super().death()
+    def reproduction (self, otro, todos):
+        if (self.color == otro.color and otro not in self.hijos and self not in otro.hijos and
+            self.tiempo_reproduccion >= TIEMPO_REPRODUCCION and len(self.hijos) < MAX_HIJOS and
+            len([x for x in todos if x.color == self.color]) < MAX_ANIMALES):
+            hijo = Animal(self.color, self.rect.x, self.rect.y)
+            self.hijos.append(hijo)
+            otro.hijos.append(hijo)
+            self.tiempo_reproduccion = 0
+            return hijo
+        return None
 
-    def max_move(self):
+    def mover(self):
+        self.rect.x += ra.randint(-1, 1)
+        self.rect.y += ra.randint(-1, 1)
 
-        return super().max_move()
+        # If the animal is blue (a herbivore), check for collision with plants
+        if self.color == (0, 0, 255):
+            hit_list = py.sprite.spritecollide(self, todos, False)
+            for hit in hit_list:
+                if isinstance(hit, Planta):
+                    # Eat the plant and remove it from the game
+                    self.tiempo_reproduccion -= 10  # Eating a plant decreases the reproduction time
+                    todos.remove(hit)
 
-class planta (organismo):
-    def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta):
-        super().__init__(vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta)
+    def actualizar(self):
+        self.tiempo_reproduccion += 1
+
+class Planta (Organismo):
+    def __init__(self, vida, daño, energia, sed, estado, genero, posicionx, posiciony, dieta, color):
+        super().__init__(vida, daño, energia, sed, estado, genero, posicionx, posiciony, dieta, color)
+        self.cycles=0
+
     def desidratacion(self):
-        if super().water == 0:
-            super().hp = super().hp - 1
+        if self.water < 50 or self.cycles % 12 == 0:
+            self.hp = self.hp - 10
+
     def death(self):
+        if self.hp < 1 or self.cycles >= 60 or ra.random() < 0.01: 
+            self.estate = "Muerto"
         return super().death()
+    def reproduction(self):
+        if self.repcont >= 6:
+            self.repcont = 0
+            self.enrg = int(self.water) -1
+            self.death()
+            return [(self.postx + ra.randint(-10, 10), self.posty + ra.randint(-10, 10)) for _ in range(ra.randint(0, 2))]
+        else:
+            self.repcont += 1
+            return []
+    def dibujar(self, ventana):
+        py.draw.polygon(ventana, self.color, [(self.postx, self.posty), (self.postx + 5, self.posty + 5), (self.postx, self.posty + 5)])
 
 class ambiente:
     def __init__(self,agua,humedad,tipo):
@@ -127,28 +157,25 @@ grid = [[(ra.randint(0, len(imagenes)-1), ambiente(ra.randint(0, 100), ra.randin
 #-------------------------
 #animales
 #-------------------------
-
-for i in range(30):
-    colour = (ra.randrange(256), ra.randrange(150), ra.randrange(120))
-    vida = 100
-    daño = 10 if i < 5 else 0  # Los primeros 5 animales son agresivos
-    energia = 100
-    sed = 100
-    movimiento = 1
-    estado = "Vivo"
-    genero = "Macho" if i % 2 == 0 else "Hembra"
-    posicionx = ra.randrange(700)
-    posiciony = ra.randrange(700)
-    dieta = "Carnívoro" if i < 5 else "Herbívoro"
-    animal = Animal( vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta,colour)
-    all_sprites.add(animal)
+colores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0)]
+for color in colores:
+    numerocromosomico=ra.randint in range (0,2)
+    hervorcar=ra.randint in range (0,2)
+    animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color, ra.randint(ancho // 2 - 50, ancho // 2 + 50), ra.randint(largo // 2 - 50, largo // 2 + 50),0,0)
+    todos.add(animal)
+    animal = Animal(100,10,100,100,"vivo","macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color, ra.randint(ancho // 2 - 50, ancho // 2 + 50), ra.randint(largo // 2 - 50, largo // 2 + 50),0,0)
+    todos.add(animal)
 #-------------------------
 #MAIN
 #-------------------------
-py.init()
 
 def main(ancho,largo,grid):
     pantalla= py.display.set_mode((ancho,largo))
+    all_sprites.draw(pantalla)
+    colores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
+    plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 700), ra.randint(0, 700), "fotosintetico", color) for color in colores for _ in range(3)]
+    contador_colores = {color: 3 for color in colores}
+
     for row in range(ROWS):
         for col in range(COLS):
             indice, ambiente = grid[row][col]
@@ -156,8 +183,49 @@ def main(ancho,largo,grid):
             ambiente.humedads()
             ambiente.sequia()
             ambiente.water()
-            all_sprites.draw(pantalla)
+    
     py.display.update()
+
+    #-------------------------
+    # CICLO PRINCIPAL
+    #-------------------------
+    running=True
+    while running:
+        contadores_color = {color: 1 for color in colores}
+        
+        for animal in todos:
+                animal.mover()
+                animal.actualizar()
+                for otro in todos:
+                    if animal != otro and py.sprite.collide_rect(animal, otro):
+                        hijo = animal.reproduction(otro, todos)
+                        if hijo is not None:
+                            todos.add(hijo)
+                            contadores_color[hijo.color] += 1
+        nuevas_plantas = []
+        for Planta in plantas:
+            Planta.cycles += 1
+            Planta.dibujar(pantalla)
+            nuevas_posiciones = Planta.reproduction()
+            for pos in nuevas_posiciones:
+                if contador_colores[Planta.color] < 600:
+                    nuevas_plantas.append(Planta(100, 0, 50, 50, 0, "vivo", "planti", pos[0], pos[1], "fotosintetico", Planta.color))
+                    contador_colores[Planta.color] += 1
+            Planta.desidratacion()
+            Planta.death()
+            if Planta.estate == "Muerto":
+                plantas.remove(Planta)
+                contador_colores[Planta.color] -= 1
+        plantas.extend(nuevas_plantas)
+        todos.draw(pantalla)
+        for event in py.event.get():
+            if event.type == py.QUIT:
+                running = False
+        all_sprites.update()
+        py.display.flip()
+        ti.sleep(0)
+        clock.tick(6)
+    py.quit()
 
 #---------------------------------------------------------------------
 # Inicializa Superficie del Super Extra Mega Mapa.-
@@ -166,17 +234,5 @@ def main(ancho,largo,grid):
 def Get_Surface(ancho,alto):
     return py.Surface((ancho,alto))
 
-#-------------------------
-# CICLO PRINCIPAL
-#-------------------------
-
-while running:
-    for event in py.event.get():
-        if event.type == py.QUIT:
-            running = False
-    all_sprites.update()
-    main(largo,ancho,grid)
-    py.display.flip()
-    ti.sleep(0)
-    clock.tick(6)
-py.quit()
+if __name__ == "__main__":
+    main(ancho,largo,grid)

@@ -3,10 +3,7 @@ import random
 
 ANCHO, ALTO = 700, 700
 NEGRO = (0, 0, 0)
-FPS = 60
-MAX_HIJOS = 4
-TIEMPO_REPRODUCCION = FPS * 3
-MAX_ANIMALES = 15
+FPS = 60 ;MAX_HIJOS = 6;TIEMPO_REPRODUCCION = FPS * 3;MAX_ANIMALES = 15
 pygame.init()
 class Organismo:
     def __init__(self, vida, daño, energia, sed, movimiento, estado, genero, posicionx, posiciony, dieta, color):
