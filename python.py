@@ -9,15 +9,23 @@ import time as ti
 #-------------------------------------
 #constantes
 #---------------------------------------
-ancho, largo = 1000 , 600 ; ncx,ncy = 5,5
-dimCW= ancho / ncx ; dimCH= largo / ncy
+ancho, largo = 1000 , 600
+ncx,ncy = 5,5
+dimCW= ancho-400 / ncx 
+dimCH= largo / ncy
 posibles_estados = ["vivo","muelto"]
-posibles_generos = ["macho","hembra","planti"] ; running = True
-posibles_dietas  = ["carnivoro","herviro",]; all_sprites = py.sprite.Group()
-mapa = [] ; clock = py.time.Clock()
-ROWS, COLS = 14, 14;todos = py.sprite.Group()
-cuadrado_SIZE = ancho // ROWS;FPS = 60;MAX_HIJOS = 6;TIEMPO_REPRODUCCION = FPS * 3;MAX_ANIMALES = 15
-psiblecoloranimal=['rojo', 'azul', 'negro', 'amarillo', 'morado', 'verde', 'cafe', 'naranja', 'rosa', 'vino']
+posibles_generos = ["macho","hembra","planti"] 
+running = True
+posibles_dietas  = ["carnivoro","herviro",]
+mapa = [] 
+clock = py.time.Clock()
+ROWS, COLS = 14, 14
+todos = py.sprite.Group()
+cuadrado_SIZE = ancho // ROWS;FPS = 60
+MAX_HIJOS = 6
+TIEMPO_REPRODUCCION = FPS * 3
+MAX_ANIMALES = 100
+psiblecoloranimal=[(255,0,0),(0,0,255),(0,0,0),(255,255,0),(120,40,140),(0,143,57),(161,130,98),(255,128,0),(234,137,154),(94,33,41)]
 pantalla= py.display.set_mode((ancho,largo))
 
 py.init()
@@ -72,14 +80,14 @@ class Animal(Organismo, py.sprite.Sprite):
         return super().death()
 
     def reproduction(self, otro, todos):
-        if self.tiempo_reproduccion > 60 and len(self.hijos) < 3:
+        if self.tiempo_reproduccion > 60 and len(self.hijos) < 3 and len([x for x in todos if x.color == self.color]) < MAX_ANIMALES:
             if self.color == otro.color:
                 if self.gender == otro.gender: # Reproducción entre animales del mismo sexo
                     return None
 
                 # Lógica para determinar si la reproducción es exitosa o no
                 if ra.random() < self.tasa_reproduccion:
-                    hijo = Animal(self.hp,self.dmg,self.enrg,self.water,self.estate,self.gender,self.diet,otro.color, self.rect.x, self.rect.y,self.postx,self.posty)
+                    hijo = Animal(self.hp,self.dmg,self.enrg,self.water,self.estate,self.gender,self.diet,self.color, self.rect.x, self.rect.y,self.postx,self.posty)
                     self.hijos.append(hijo)
                     otro.hijos.append(hijo)
                     self.tiempo_reproduccion = 0
@@ -107,7 +115,8 @@ class Animal(Organismo, py.sprite.Sprite):
         celda_x = int(self.rect.x // dimCW)
         celda_y = int(self.rect.y // dimCH)
 
-        if grid[celda_y][celda_x] == 0:
+        if grid[celda_y][celda_x] == 8:
+            self.hp = self.hp - 10
             self.water = min(100, self.water + 10)
             self.water = max(0, self.water - 10)
 
@@ -260,7 +269,7 @@ def Crea_Mapa(grid):
                 ambiente(30, 30,"semi arido",  j * 25, i * 25)
             if grid[i][j] == 8:
                 pantalla.blit(imagenes[8], (j * 25, i * 25))
-                ambiente(30, 30,"semi arido",  j * 25, i * 25)
+                ambiente(100, 100,"acuatico",  j * 25, i * 25)
 
 def Meteorito(meteoritos = 40):
     imagenes = cargar_imagenes()
@@ -308,26 +317,6 @@ bucle = 0
 #animales
 #-------------------------
 for color in psiblecoloranimal:
-    if color == "rojo":
-        color =((255,0,0))
-    if color == "azul":
-        color =((0,0,255))
-    if color == "negro":
-        color =((0,0,0))
-    if color == "amarillo":
-        color =((255,255,0))
-    if color == "morado":
-        color =((120,40,140))
-    if color == "verde":
-        color =((0,143,57))
-    if color == "cafe":
-        color =((161,130,98))
-    if color == "naranja":
-        color =((255,128,0))
-    if color == "rosa":
-        color =((234,137,154))
-    if color == "vino":
-        color =((94,33,41))
     x = ra.choice([ra.randint(0, (ancho-400) // 2 - 25), ra.randint((ancho-400) // 2 + 25, (ancho-400))])
     y = ra.choice([ra.randint(0, largo // 2 - 25), ra.randint(largo // 2 + 25, largo)])
     numerocromosomico=ra.randint in range (0,2)
@@ -346,7 +335,7 @@ for color in psiblecoloranimal:
     todos.add(animal)
 
 
-all_sprites.draw(pantalla)
+todos.draw(pantalla)
 coloores = [(232,218,189),(127,255,212),(8,77,110),(128,64,0),(200,150,41)]
 plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 600)
 , ra.randint(0, 600), "fotosintetico", color) for color in coloores for _ in range(3)]
@@ -368,7 +357,6 @@ while running:
         animal.actualizar()
         for otro in todos:
             if animal != otro and py.sprite.collide_rect(animal, otro):
-                print("Colisión detectada entre:", animal, "y", otro)
                 hijo = animal.reproduction(otro, todos)
                 if hijo is not None:
                     todos.add(hijo)
@@ -380,7 +368,7 @@ while running:
                         print("-----------------------------")
 
                         print("Estoy cansado jefe")
-    all_sprites.update()
+    todos.update()
     nuevas_plantas = []
     for planta in plantas:
         planta.cycles += 1
@@ -405,7 +393,7 @@ while running:
             Meteorito(10)
         if event.key == py.K_RIGHT:
             Terremoto()
-            # Pinta_Mapa()
+        Pinta_Mapa()
 # -----------------------------------------Cilco de meteoritos
 
     bucle += 1
@@ -416,8 +404,8 @@ while running:
         Meteorito()
         Ciclo_Transcurrido = 0
 # -----------------------------------------Cilco de meteoritos
-    all_sprites.update()
+    todos.update()
     py.display.flip()
     ti.sleep(0)
-    clock.tick(6000)
+    clock.tick(60)
 py.quit()
