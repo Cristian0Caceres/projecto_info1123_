@@ -170,24 +170,6 @@ class ambiente:
 #-------------------------
 def cargar_imagenes():
     imagenes = []
-    # imagenes.append(py.image.load('25/f3.png')) # Verde claro 1 [0]
-    # imagenes.append(py.image.load('25/f5.png')) # Verde claro 2 [1]
-    # imagenes.append(py.image.load('25/f4.png')) # Verde oscuro [2]
-
-    # imagenes.append(py.image.load('25/f2.png')) # Naranjo [3]
-    # imagenes.append(py.image.load('25/f1.png')) # Rojo [4]
-
-    # imagenes.append(py.image.load('25/f11.png'))# Blanco [5]
-    # imagenes.append(py.image.load('25/f13.png')) # Crema [6]
-    # imagenes.append(py.image.load('25/f6.png')) # Gris [7]
-    # imagenes.append(py.image.load('25/f9.png')) # Celeste [8]
-
-
-    # imagenes.append(py.image.load('25/f7.png')) # Rosa [9]
-    # imagenes.append(py.image.load('25/f8.png')) # Purpura 1 [10]
-    # imagenes.append(py.image.load('25/f10.png')) # Purpura 2 [11]
-
-
     imagenes.append(py.image.load('block/t10.jpg')) # [0]
     imagenes.append(py.image.load('block/t13.jpg')) # [1]
     imagenes.append(py.image.load('block/t1.jpg')) # [2]
@@ -274,7 +256,7 @@ def Meteorito(meteoritos = 40):
             grid[zona_Afectada_Y][zona_Afectada_X]=4
             pantalla.blit(imagenes[11], (zona_Afectada_X * 25, zona_Afectada_Y * 25))
             py.display.update()
-            ti.sleep(0.1)
+            ti.sleep(0.3)
     if meteoritos == 10:
         for x in range(10):
             zona_Afectada_X = ra.randint(0,31)
@@ -283,6 +265,13 @@ def Meteorito(meteoritos = 40):
             pantalla.blit(imagenes[11], (zona_Afectada_X * 25, zona_Afectada_Y * 25))
             py.display.update()
             ti.sleep(0.3)
+def Pinta_Mapa():
+    imagenes = cargar_imagenes()
+    for i in range(24):
+        for j in range(32):
+            pantalla.blit(imagenes[grid[i][j]], (j * 25, i * 25))
+            py.display.update()
+    print('laaaaaaaaaaaaaaaaa')
 def Terremoto():
     imagenes = cargar_imagenes()
     for x in range(len(grid)-1):
@@ -291,16 +280,10 @@ def Terremoto():
             grid[x][j] = grid[x+1][j]
             grid[x+1][j] = valor
             pantalla.blit(imagenes[grid[x][j]], (j * 25, x * 25))
-            ti.sleep(0.003)
+            py.display.update()
+            ti.sleep(0.0000004)
     print('listo')
 
-def Pinta_Mapa():
-    imagenes = cargar_imagenes()
-    for i in range(24):
-        for j in range(32):
-            pantalla.blit(imagenes[grid[i][j]], (j * 25, i * 25))
-            py.display.update()
-    print('laaaaaaaaaaaaaaaaa')
 
 
 Ciclo_Transcurrido = 0
@@ -407,7 +390,7 @@ while running:
             Meteorito(10)
         if event.key == py.K_RIGHT:
             Terremoto()
-            Pinta_Mapa()
+            # Pinta_Mapa()
 # -----------------------------------------Cilco de meteoritos
 
     bucle += 1
