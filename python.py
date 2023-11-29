@@ -6,10 +6,9 @@ from pygame.locals import *
 import numpy  as np
 import random as ra
 import time as ti
-#-------------------------
-#CONSTANTES
-#-------------------------
-
+#-------------------------------------
+#constantes
+#---------------------------------------
 ancho, largo = 1000 , 600 ; ncx,ncy = 5,5
 dimCW= ancho / ncx ; dimCH= largo / ncy
 posibles_estados = ["vivo","muelto"]
@@ -18,6 +17,8 @@ posibles_dietas  = ["carnivoro","herviro",]; all_sprites = py.sprite.Group()
 mapa = [] ; clock = py.time.Clock()
 ROWS, COLS = 14, 14;todos = py.sprite.Group()
 cuadrado_SIZE = ancho // ROWS;FPS = 60;MAX_HIJOS = 6;TIEMPO_REPRODUCCION = FPS * 3;MAX_ANIMALES = 15
+psiblecoloranimal=['rojo', 'azul', 'negro', 'amarillo', 'morado', 'verde', 'cafe', 'naranja', 'rosa', 'vino']
+
 py.init()
 #-------------------------
 #CLASES Y METODOS
@@ -43,12 +44,12 @@ class Organismo:
             self.estate = "Muerto"
 
     def inanicion_desidratacion(self):
-        self.enrg  = int(self.enrg)  - 1
-        self.water = int(self.water) - 1
+        self.enrg  = int(self.enrg)  - 10
+        self.water = int(self.water) - 10
         if self.enrg < 100:
-            self.hp = self.hp - 1
+            self.hp = self.hp - 10
         if self.water < 100:
-            self.hp = self.hp - 1
+            self.hp = self.hp - 10
 
 class Animal(Organismo, py.sprite.Sprite):
     def __init__(self, vida, daño, energia, sed, estado, genero,dieta, color, x, y,posicionx,posiciony):
@@ -66,6 +67,8 @@ class Animal(Organismo, py.sprite.Sprite):
         return super().inanicion_desidratacion()
     def death(self):
         return super().death()
+
+
     def reproduction (self, otro, todos):
         if (self.color == otro.color and otro not in self.hijos and self not in otro.hijos and
             self.tiempo_reproduccion >= TIEMPO_REPRODUCCION and len(self.hijos) < MAX_HIJOS and
@@ -76,6 +79,7 @@ class Animal(Organismo, py.sprite.Sprite):
             self.tiempo_reproduccion = 0
             return hijo
         return None
+
 
     def mover(self):
         self.rect.x += ra.randint(-1, 1)
@@ -96,10 +100,9 @@ class Animal(Organismo, py.sprite.Sprite):
     def beber_agua(self, grid):
         celda_x = int(self.rect.x // dimCW)
         celda_y = int(self.rect.y // dimCH)
-        print("mira tu como los peces en el rio al ver a jesus nacer6")
 
         if grid[celda_y][celda_x] == 0:
-            self.agua = min(100, self.agua + 10)
+            self.water = min(100, self.water + 10)
             self.sed = max(0, self.sed - 10)
 
 
@@ -119,10 +122,10 @@ class Planta (Organismo):
     def reproduction(self):
         if self.repcont >= 6:
             self.repcont = 0
-            self.enrg = int(self.water) -1
+            self.enrg = int(self.water) - 1
             self.death()
-            if self.postx > 600:
-                if self.posty > 600:
+            if self.postx > 600 or self.postx < -600:
+                if self.posty > 600 or self.posty < -600:
                     return [(self.postx, self.posty) for _ in range(ra.randint(0, 2))]
                 else:
                     return [(self.postx, self.posty + ra.randint(-10, 10)) for _ in range(ra.randint(0, 2))]
@@ -131,6 +134,7 @@ class Planta (Organismo):
         else:
             self.repcont += 1
             return []
+
     def dibujar(self, ventana):
         py.draw.polygon(ventana, self.color, [(self.postx, self.posty), (self.postx + 5, self.posty + 5), (self.postx, self.posty + 5)])
 
@@ -243,9 +247,27 @@ def Crea_Mapa(grid):
 #-------------------------
 #animales
 #-------------------------
-colores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0)]
-for color in colores:
-
+for color in psiblecoloranimal:
+    if color == "rojo":
+        color =((255,0,0))
+    if color == "azul":
+        color =((0,0,255))
+    if color == "negro":
+        color =((0,0,0))
+    if color == "amarillo":
+        color =((255,255,0))
+    if color == "morado":
+        color =((120,40,140))
+    if color == "verde":
+        color =((0,143,57))
+    if color == "cafe":
+        color =((161,130,98))
+    if color == "naranja":
+        color =((255,128,0))
+    if color == "rosa":
+        color =((234,137,154))
+    if color == "vino":
+        color =((94,33,41))
     x = ra.choice([ra.randint(0, (ancho-400) // 2 - 25), ra.randint((ancho-400) // 2 + 25, (ancho-400))])
     y = ra.choice([ra.randint(0, largo // 2 - 25), ra.randint(largo // 2 + 25, largo)])
     numerocromosomico=ra.randint in range (0,2)
@@ -268,7 +290,7 @@ contador_coloores = {color: 3 for color in coloores}
 #-------------------------
 # CICLO PRINCIPAL
 #-------------------------
-contadores_color = {color: 1 for color in colores}
+contadores_color = {color: 1 for color in psiblecoloranimal}
 running=True
 while running:
     pantalla.fill((128,128,128))
@@ -313,6 +335,6 @@ while running:
             running = False
     all_sprites.update()
     py.display.flip()
-    ti.sleep(0.01)
-    clock.tick(6)
+    ti.sleep(0)
+    clock.tick(6000)
 py.quit()
