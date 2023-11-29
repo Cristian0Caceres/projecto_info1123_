@@ -63,6 +63,7 @@ class Animal(Organismo, py.sprite.Sprite):
         self.rect.y = y
         self.hijos = []
         self.tiempo_reproduccion = 0
+        self.tasa_reproduccion=0.5
 
     def inanicion_desidratacion(self):
         self.sed= self.sed - 10
@@ -70,18 +71,21 @@ class Animal(Organismo, py.sprite.Sprite):
     def death(self):
         return super().death()
 
+    def reproduction(self, otro, todos):
+        if self.tiempo_reproduccion > 60 and len(self.hijos) < 3:
+            if self.color == otro.color:
+                if self.gender == otro.gender: # Reproducción entre animales del mismo sexo
+                    return None
 
-    def reproduction (self, otro, todos):
-        if (self.color == otro.color and otro not in self.hijos and self not in otro.hijos and
-            self.tiempo_reproduccion >= TIEMPO_REPRODUCCION and len(self.hijos) < MAX_HIJOS and
-            len([x for x in todos if x.color == self.color]) < MAX_ANIMALES):
-            hijo = Animal(self.hp,self.dmg,self.enrg,self.water,self.estate,self.gender,self.diet,otro.color, self.rect.x, self.rect.y,self.postx,self.posty)
-            self.hijos.append(hijo)
-            otro.hijos.append(hijo)
-            self.tiempo_reproduccion = 0
-            return hijo
+                # Lógica para determinar si la reproducción es exitosa o no
+                if ra.random() < self.tasa_reproduccion:
+                    hijo = Animal(self.hp,self.dmg,self.enrg,self.water,self.estate,self.gender,self.diet,otro.color, self.rect.x, self.rect.y,self.postx,self.posty)
+                    self.hijos.append(hijo)
+                    otro.hijos.append(hijo)
+                    self.tiempo_reproduccion = 0
+                    return hijo
+            return None
         return None
-
 
     def mover(self):
         self.rect.x += ra.randint(-1, 1)
@@ -126,9 +130,9 @@ class Planta (Organismo):
             self.repcont = 0
             self.enrg = int(self.water) - 1
             self.death()
-            if self.postx > 800 or self.postx < -800:
+            if self.postx > 780 or self.postx < -780:
                 if self.posty > 600 or self.posty < -600:
-                    return [(self.postx, self.posty) for _ in range(ra.randint(0, 2))]
+                    return [(self.postx, self.posty-10) for _ in range(ra.randint(0, 2))]
                 else:
                     return [(self.postx, self.posty + ra.randint(-10, 10)) for _ in range(ra.randint(0, 2))]
             else:
@@ -324,6 +328,13 @@ for color in psiblecoloranimal:
     animal = Animal(100,10,100,100,"vivo"
     ,"macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
     todos.add(animal)
+    animal = Animal(100,10,100,100,"vivo"
+    ,"hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
+    todos.add(animal)
+    animal = Animal(100,10,100,100,"vivo"
+    ,"macho","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
+    todos.add(animal)
+
 
 all_sprites.draw(pantalla)
 coloores = [(232,218,189),(127,255,212),(8,77,110),(128,64,0),(200,150,41)]
@@ -347,6 +358,7 @@ while running:
         animal.actualizar()
         for otro in todos:
             if animal != otro and py.sprite.collide_rect(animal, otro):
+                print("Colisión detectada entre:", animal, "y", otro)
                 hijo = animal.reproduction(otro, todos)
                 if hijo is not None:
                     todos.add(hijo)
@@ -356,7 +368,6 @@ while running:
                         print("-----------------------------")
                         print("error code:",e)
                         print("-----------------------------")
-
 
                         print("Estoy cansado jefe")
     all_sprites.update()
