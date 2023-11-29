@@ -1,6 +1,6 @@
 # SIMULADOR DE ECOSISTEMA
 <div align="center"> <img src="Imagen/mapa4.png" alt="simulador" width="600"/></div>
-<div align="center"> <img src="Imagen/mapa1.png" alt="simulador" width="600"/></div>
+<div align="center"> <img src="Imagen/mapa5.png" alt="simulador" width="600"/></div>
 
 <div align="center">
   projecto_info1123_<br>
