@@ -193,7 +193,8 @@ def cargar_imagenes():
     imagenes.append(py.image.load('t7.jpg')) # [11]
     imagenes.append(py.image.load('t9.jpg')) # [12]
     imagenes.append(py.image.load('t12.jpg')) # [13]
-    
+    imagenes.append(py.image.load('Explicacion.jpg')) # [14]
+
     # imagenes.append(py.image.load('block/t10.jpg')) # [0]
     # imagenes.append(py.image.load('block/t13.jpg')) # [1]
     # imagenes.append(py.image.load('block/t1.jpg')) # [2]
@@ -307,9 +308,20 @@ def Terremoto():
             py.display.update()
             ti.sleep(0.0000004)
     print('listo')
+def desertificaciontotal():
+    imagenes = cargar_imagenes()
+    for x in range(len(grid)-1):
+        for j in range(len(grid[x])):
+            if grid[x][j] == 8:
+                grid[x][j] = 3
+                pantalla.blit(imagenes[grid[x][j]], (j * 25, x * 25))
+                py.display.update()
+                ti.sleep(0.1)
 
-
-
+def Instef():
+    imagenes = cargar_imagenes()
+    pantalla.blit(imagenes[14],(800,0))
+    py.display.update()
 Ciclo_Transcurrido = 0
 bucle = 0
 
@@ -350,6 +362,7 @@ contadores_color = {color: 1 for color in psiblecoloranimal}
 running=True
 while running:
     pantalla.fill((128,128,128))
+    Instef()
     Crea_Mapa(grid)
     for animal in todos:
         animal.beber_agua(grid)
@@ -393,6 +406,8 @@ while running:
             Meteorito(10)
         if event.key == py.K_RIGHT:
             Terremoto()
+        if event.key == py.K_UP:
+            desertificaciontotal()
         Pinta_Mapa()
 # -----------------------------------------Cilco de meteoritos
 
