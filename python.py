@@ -193,7 +193,7 @@ def cargar_imagenes():
     imagenes.append(py.image.load('t7.jpg')) # [11]
     imagenes.append(py.image.load('t9.jpg')) # [12]
     imagenes.append(py.image.load('t12.jpg')) # [13]
-    imagenes.append(py.image.load('Explicacion.jpg')) # [14]
+    imagenes.append(py.image.load('t14.png')) # [14]
 
     # imagenes.append(py.image.load('block/t10.jpg')) # [0]
     # imagenes.append(py.image.load('block/t13.jpg')) # [1]
@@ -318,6 +318,7 @@ def desertificaciontotal():
                 py.display.update()
                 ti.sleep(0.1)
 
+
 def Instef():
     imagenes = cargar_imagenes()
     pantalla.blit(imagenes[14],(800,0))
@@ -362,7 +363,6 @@ contadores_color = {color: 1 for color in psiblecoloranimal}
 running=True
 while running:
     pantalla.fill((128,128,128))
-    Instef()
     Crea_Mapa(grid)
     for animal in todos:
         animal.beber_agua(grid)
@@ -420,6 +420,7 @@ while running:
         Ciclo_Transcurrido = 0
 # -----------------------------------------Cilco de meteoritos
     todos.update()
+    Instef()
     py.display.flip()
     ti.sleep(0)
     clock.tick(60)
