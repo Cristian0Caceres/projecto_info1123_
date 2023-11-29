@@ -18,6 +18,7 @@ mapa = [] ; clock = py.time.Clock()
 ROWS, COLS = 14, 14;todos = py.sprite.Group()
 cuadrado_SIZE = ancho // ROWS;FPS = 60;MAX_HIJOS = 6;TIEMPO_REPRODUCCION = FPS * 3;MAX_ANIMALES = 15
 psiblecoloranimal=['rojo', 'azul', 'negro', 'amarillo', 'morado', 'verde', 'cafe', 'naranja', 'rosa', 'vino']
+pantalla= py.display.set_mode((ancho,largo))
 
 py.init()
 #-------------------------
@@ -245,6 +246,50 @@ def Crea_Mapa(grid):
                 pantalla.blit(imagenes[8], (j * 25, i * 25))
                 ambiente(30, 30,"semi arido",  j * 25, i * 25)
 
+def Meteorito(meteoritos = 40):
+    imagenes = cargar_imagenes()
+    if meteoritos== 40:
+        for x in range(40):
+            zona_Afectada_X = ra.randint(0,31)
+            zona_Afectada_Y = ra.randint(0,23)
+            grid[zona_Afectada_Y][zona_Afectada_X]=4
+            pantalla.blit(imagenes[4], (zona_Afectada_X * 25, zona_Afectada_Y * 25))
+            py.display.update()
+            ti.sleep(0.1)
+    if meteoritos == 10:
+        for x in range(10):
+            zona_Afectada_X = ra.randint(0,31)
+            zona_Afectada_Y = ra.randint(0,23)
+            grid[zona_Afectada_Y][zona_Afectada_X]=7
+            pantalla.blit(imagenes[7], (zona_Afectada_X * 25, zona_Afectada_Y * 25))
+            py.display.update()
+            ti.sleep(0.3)
+
+
+
+def Terremoto():
+    imagenes = cargar_imagenes()
+    for x in range(len(grid)-1):
+        for j in range(len(grid[x])):
+            valor = grid[x][j]
+            grid[x][j] = grid[x+1][j]
+            grid[x+1][j] = valor
+            pantalla.blit(imagenes[grid[x][j]], (j * 25, x * 25))
+            ti.sleep(0.003)
+    print('listo')
+
+def Pinta_Mapa():
+    imagenes = cargar_imagenes()
+    for i in range(24):
+        for j in range(32):
+            pantalla.blit(imagenes[grid[i][j]], (j * 25, i * 25))
+            py.display.update()
+    print('laaaaaaaaaaaaaaaaa')
+
+
+Ciclo_Transcurrido = 0
+bucle = 0
+
 #-------------------------
 #animales
 #-------------------------
@@ -279,7 +324,7 @@ for color in psiblecoloranimal:
     animal = Animal(100,10,100,100,"vivo"
     ,"macho" if numerocromosomico < 1 else "hembra","hervivoros" if hervorcar > 0 else "carnivoro",color,x,y,0,0)
     todos.add(animal)
-pantalla= py.display.set_mode((ancho,largo))
+
 all_sprites.draw(pantalla)
 coloores = [(232,218,189),(127,255,212),(8,77,110),(128,64,0),(200,150,41)]
 plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 600)
@@ -334,6 +379,22 @@ while running:
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
+    if event.type == py.KEYDOWN:
+        if event.key == py.K_LEFT:
+            Meteorito(10)
+        if event.key == py.K_RIGHT:
+            Terremoto()
+            Pinta_Mapa()
+# -----------------------------------------Cilco de meteoritos
+
+    bucle += 1
+    if bucle == 60:
+        Ciclo_Transcurrido += 1
+        bucle = 0
+    if Ciclo_Transcurrido == 10:
+        Meteorito()
+        Ciclo_Transcurrido = 0
+# -----------------------------------------Cilco de meteoritos
     all_sprites.update()
     py.display.flip()
     ti.sleep(0)

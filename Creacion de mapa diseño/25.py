@@ -138,21 +138,21 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
     if event.type == pygame.KEYDOWN:
-        # if event.key == pygame.K_LEFT:
-        #     Meteorito(10)
+        if event.key == pygame.K_LEFT:
+            Meteorito(10)
         if event.key == pygame.K_RIGHT:
             Terremoto()
             Pinta_Mapa()
 # -----------------------------------------Cilco de meteoritos
 
-    # bucle += 1
-    # if bucle == 60:
-    #     Ciclo_Transcurrido += 1
-    #     bucle = 0
-    # if Ciclo_Transcurrido == 10:
-    #     Meteorito()
-    #     Ciclo_Transcurrido = 0
+    bucle += 1
+    if bucle == 60:
+        Ciclo_Transcurrido += 1
+        bucle = 0
+    if Ciclo_Transcurrido == 10:
+        Meteorito()
+        Ciclo_Transcurrido = 0
 # -----------------------------------------Cilco de meteoritos
-    # # pygame.display.update()
-    # pygame.display.flip()
+    pygame.display.update()
+    pygame.display.flip()
     Clock.tick(60)
