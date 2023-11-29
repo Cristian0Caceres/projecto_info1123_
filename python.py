@@ -170,23 +170,38 @@ class ambiente:
 #-------------------------
 def cargar_imagenes():
     imagenes = []
-    imagenes.append(py.image.load('f3.png')) # Verde claro 1
-    imagenes.append(py.image.load('f5.png')) # Verde claro 2
-    imagenes.append(py.image.load('f4.png')) # Verde oscuro
+    # imagenes.append(py.image.load('25/f3.png')) # Verde claro 1 [0]
+    # imagenes.append(py.image.load('25/f5.png')) # Verde claro 2 [1]
+    # imagenes.append(py.image.load('25/f4.png')) # Verde oscuro [2]
 
-    imagenes.append(py.image.load('f2.png')) # Naranjo
-    imagenes.append(py.image.load('f1.png')) # Rojo
+    # imagenes.append(py.image.load('25/f2.png')) # Naranjo [3]
+    # imagenes.append(py.image.load('25/f1.png')) # Rojo [4]
 
-    imagenes.append(py.image.load('f11.png'))# Blanco
-    imagenes.append(py.image.load('f13.png')) # Crema
-    imagenes.append(py.image.load('f6.png')) # Gris
-    imagenes.append(py.image.load('f9.png')) # Celeste
+    # imagenes.append(py.image.load('25/f11.png'))# Blanco [5]
+    # imagenes.append(py.image.load('25/f13.png')) # Crema [6]
+    # imagenes.append(py.image.load('25/f6.png')) # Gris [7]
+    # imagenes.append(py.image.load('25/f9.png')) # Celeste [8]
 
 
-    imagenes.append(py.image.load('f7.png')) # Rosa
-    imagenes.append(py.image.load('f8.png')) # Purpura 1
-    imagenes.append(py.image.load('f10.png')) # Purpura 2
+    # imagenes.append(py.image.load('25/f7.png')) # Rosa [9]
+    # imagenes.append(py.image.load('25/f8.png')) # Purpura 1 [10]
+    # imagenes.append(py.image.load('25/f10.png')) # Purpura 2 [11]
 
+
+    imagenes.append(py.image.load('block/t10.jpg')) # [0]
+    imagenes.append(py.image.load('block/t13.jpg')) # [1]
+    imagenes.append(py.image.load('block/t1.jpg')) # [2]
+    imagenes.append(py.image.load('block/t8.jpg')) # [3]
+    imagenes.append(py.image.load('block/t10.jpg')) # [4]
+    imagenes.append(py.image.load('block/t4.jpg')) # [5]
+    imagenes.append(py.image.load('block/t1.jpg')) # [6]
+    imagenes.append(py.image.load('block/t3.jpg')) # [7]
+    imagenes.append(py.image.load('block/t6.jpg')) # [8]
+    imagenes.append(py.image.load('block/t2.jpg')) # [9]
+    imagenes.append(py.image.load('block/t5.jpg')) # [10]
+    imagenes.append(py.image.load('block/t7.jpg')) # [11]
+    imagenes.append(py.image.load('block/t9.jpg')) # [12]
+    imagenes.append(py.image.load('block/t12.jpg')) # [13]
     return imagenes
 
 #--------------------------
@@ -257,7 +272,7 @@ def Meteorito(meteoritos = 40):
             zona_Afectada_X = ra.randint(0,31)
             zona_Afectada_Y = ra.randint(0,23)
             grid[zona_Afectada_Y][zona_Afectada_X]=4
-            pantalla.blit(imagenes[4], (zona_Afectada_X * 25, zona_Afectada_Y * 25))
+            pantalla.blit(imagenes[11], (zona_Afectada_X * 25, zona_Afectada_Y * 25))
             py.display.update()
             ti.sleep(0.1)
     if meteoritos == 10:
@@ -265,12 +280,9 @@ def Meteorito(meteoritos = 40):
             zona_Afectada_X = ra.randint(0,31)
             zona_Afectada_Y = ra.randint(0,23)
             grid[zona_Afectada_Y][zona_Afectada_X]=7
-            pantalla.blit(imagenes[7], (zona_Afectada_X * 25, zona_Afectada_Y * 25))
+            pantalla.blit(imagenes[11], (zona_Afectada_X * 25, zona_Afectada_Y * 25))
             py.display.update()
             ti.sleep(0.3)
-
-
-
 def Terremoto():
     imagenes = cargar_imagenes()
     for x in range(len(grid)-1):
