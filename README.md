@@ -69,6 +69,10 @@ El mapa presenta una dimencion de 800x600,con una matriz de 25x32. Cada cuadro d
 - Rojo: Isla
 <div align="center"> <img src="Imagen/mapa3.png" alt="simulador" width="700"/></div>
 
+Existen actualmente 2 eventos de catrastofes , el de Sismo o terremo y Meteoritos: <br>
+Estos funcionan en un determinado ciclo , o tambien se les puede llamar precionado las flechas **<** izquierda( Meteorito)  **>** derecha(Sismo) <br>
+Aca dejo un video clip de una versión temprana del evento <a href="https://youtu.be/95ZXbb3IUEc"> https://youtu.be/95ZXbb3IUEc</a> 
+
 # Manejo de datos
 - Almacenamiento: Los datos del simulador se guardan en un archivo llamado JSON
 
