@@ -64,6 +64,7 @@ class Animal(Organismo, py.sprite.Sprite):
         self.tiempo_reproduccion = 0
 
     def inanicion_desidratacion(self):
+        self.sed= self.sed - 10
         return super().inanicion_desidratacion()
     def death(self):
         return super().death()
@@ -103,7 +104,7 @@ class Animal(Organismo, py.sprite.Sprite):
 
         if grid[celda_y][celda_x] == 0:
             self.water = min(100, self.water + 10)
-            self.sed = max(0, self.sed - 10)
+            self.water = max(0, self.water - 10)
 
 
 class Planta (Organismo):
@@ -124,7 +125,7 @@ class Planta (Organismo):
             self.repcont = 0
             self.enrg = int(self.water) - 1
             self.death()
-            if self.postx > 600 or self.postx < -600:
+            if self.postx > 800 or self.postx < -800:
                 if self.posty > 600 or self.posty < -600:
                     return [(self.postx, self.posty) for _ in range(ra.randint(0, 2))]
                 else:
@@ -280,7 +281,7 @@ for color in psiblecoloranimal:
     todos.add(animal)
 pantalla= py.display.set_mode((ancho,largo))
 all_sprites.draw(pantalla)
-coloores = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255)]
+coloores = [(232,218,189),(127,255,212),(8,77,110),(128,64,0),(200,150,41)]
 plantas = [Planta(10, 0, 50, 50, "vivo", "planti", ra.randint(0, 600)
 , ra.randint(0, 600), "fotosintetico", color) for color in coloores for _ in range(3)]
 contador_coloores = {color: 3 for color in coloores}
